@@ -1,0 +1,130 @@
+{
+ "_hinweis": "Farbwerte der 12 Paletten. accentInk = Akzent als Schrift/Linie auf Schwarz (bei dunklen Akzenten aufgehellt, Mindesthelligkeit 0,2). Alle Werte als Hex.",
+ "base": {
+  "background": "#000000",
+  "surface": "#1c1c1e",
+  "text": "#ffffff",
+  "textMuted": "#8c8c8c",
+  "border": "#2c2c2e"
+ },
+ "palettes": [
+  {
+   "name": "Gelb · Silber",
+   "accent": "#ffe600",
+   "accentInk": "#ffe600",
+   "onAccent": "#000000",
+   "secondary": "#b9c1c3",
+   "secondaryInk": "#141a1c",
+   "contrast": "#b9c1c3"
+  },
+  {
+   "name": "Rosa · Blau",
+   "accent": "#ff9ad5",
+   "accentInk": "#ff9ad5",
+   "onAccent": "#2b1bd6",
+   "secondary": "#2b1bd6",
+   "secondaryInk": "#f4f4f6",
+   "contrast": "#f4f4f6"
+  },
+  {
+   "name": "Limette · Tanne",
+   "accent": "#c7f23a",
+   "accentInk": "#c7f23a",
+   "onAccent": "#0f2e1d",
+   "secondary": "#0f2e1d",
+   "secondaryInk": "#f4f4f6",
+   "contrast": "#f4f4f6"
+  },
+  {
+   "name": "Orange · Creme",
+   "accent": "#ff5a1f",
+   "accentInk": "#ff5a1f",
+   "onAccent": "#000000",
+   "secondary": "#f2efe8",
+   "secondaryInk": "#141a1c",
+   "contrast": "#f2efe8"
+  },
+  {
+   "name": "Mint · Marine",
+   "accent": "#63e6e2",
+   "accentInk": "#63e6e2",
+   "onAccent": "#0b2545",
+   "secondary": "#e3f6f5",
+   "secondaryInk": "#141a1c",
+   "contrast": "#e3f6f5"
+  },
+  {
+   "name": "Rot · Rosé",
+   "accent": "#ff3b30",
+   "accentInk": "#ff3b30",
+   "onAccent": "#ffd6e0",
+   "secondary": "#ffd6e0",
+   "secondaryInk": "#141a1c",
+   "contrast": "#ffd6e0"
+  },
+  {
+   "name": "Lila · Gelb",
+   "accent": "#bf5af2",
+   "accentInk": "#bf5af2",
+   "onAccent": "#ffe600",
+   "secondary": "#2a1440",
+   "secondaryInk": "#f4f4f6",
+   "contrast": "#ffe600"
+  },
+  {
+   "name": "Pfirsich · Bordeaux",
+   "accent": "#ffb38a",
+   "accentInk": "#ffb38a",
+   "onAccent": "#5a0f1f",
+   "secondary": "#5a0f1f",
+   "secondaryInk": "#f4f4f6",
+   "contrast": "#f4f4f6"
+  },
+  {
+   "name": "Blau · Eis",
+   "accent": "#0a84ff",
+   "accentInk": "#0a84ff",
+   "onAccent": "#ffffff",
+   "secondary": "#d6e8ff",
+   "secondaryInk": "#141a1c",
+   "contrast": "#ffffff"
+  },
+  {
+   "name": "Grün · Pink",
+   "accent": "#30d158",
+   "accentInk": "#30d158",
+   "onAccent": "#0a2a12",
+   "secondary": "#ff9ad5",
+   "secondaryInk": "#141a1c",
+   "contrast": "#ff9ad5"
+  },
+  {
+   "name": "Silber · Schwarz",
+   "accent": "#c7c7cc",
+   "accentInk": "#c7c7cc",
+   "onAccent": "#000000",
+   "secondary": "#3a3a3c",
+   "secondaryInk": "#f4f4f6",
+   "contrast": "#f4f4f6"
+  },
+  {
+   "name": "Marine · Creme",
+   "accent": "#1c3557",
+   "accentInk": "#77869a",
+   "onAccent": "#f2efe8",
+   "secondary": "#c9d3df",
+   "secondaryInk": "#141a1c",
+   "contrast": "#f2efe8"
+  }
+ ],
+ "night": {
+  "name": "Nachtrot",
+  "accent": "#ff3b30",
+  "accentInk": "#ff3b30",
+  "text": "#ff3b30",
+  "background": "#000000",
+  "surface": "#000000",
+  "border": "#2a0805",
+  "secondary": "#5c0d08"
+ }
+}
