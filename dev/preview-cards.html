@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="de"><meta charset="utf-8"><title>Viewsta Vorschau: Datenkarten</title>
+<style>
+body{margin:0;font:14px system-ui}
+.strip{padding:18px;display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start}
+.l{background:#f2f2f7;--primary-text-color:#111;--secondary-text-color:#555;--primary-background-color:#f2f2f7}
+.d{background:#111;--primary-text-color:#fff;--secondary-text-color:#aaa;--primary-background-color:#111}
+.i{background:linear-gradient(135deg,#2b5876,#4e4376 60%,#c06c84)}
+.c>*{height:100%;display:block}
+.s{width:230px;height:140px}.q{width:200px;height:200px}.t{width:250px;height:290px}.m{width:380px;height:190px}
+.x{width:120px;height:120px}.w{width:300px;height:100px}.b{width:420px;height:210px}.k{width:420px;height:70px}
+</style>
+<body>
+<script>
+/* ?t=HH:MM setzt eine feste Uhrzeit */
+const FT=new URLSearchParams(location.search).get('t');
+if(FT){const R=Date,[hh,mm]=FT.split(':').map(Number),n=new R(),o=new R(n.getFullYear(),n.getMonth(),n.getDate(),hh,mm,0)-n;
+ window.Date=class extends R{constructor(...a){a.length?super(...a):super(R.now()+o)}static now(){return R.now()+o}}}
+/* Platzhalter für die Symbole von Home Assistant (echte Symbole gibt es nur dort) */
+class StubIcon extends HTMLElement{connectedCallback(){this.style.cssText+='display:block;border-radius:28%;background:currentColor;opacity:.9'}}
+customElements.define('ha-icon',StubIcon);customElements.define('ha-state-icon',class extends StubIcon{});
+</script>
+<script src="../dist/viewsta.js"></script>
+<script>
+const now=new Date(),iso=(d,h,m)=>{const x=new Date(d);x.setHours(h,m,0,0);return x.toISOString()};
+const day=(n)=>{const x=new Date(now);x.setDate(x.getDate()+n);return x};
+const mins=now.getHours()*60+now.getMinutes(),up=mins>=464&&mins<984,after=mins>=984;
+const inMin=m=>new Date(+now+m*6e4).toISOString();
+const states={
+ 'sun.sun':{state:up?'above_horizon':'below_horizon',attributes:{next_rising:iso(day(up||after?1:0),7,44),next_setting:iso(day(up?0:(after?1:0)),16,24)}},
+ 'light.wohnzimmer':{state:'on',attributes:{friendly_name:'Wohnzimmer',brightness:158}},
+ 'light.flur':{state:'off',attributes:{friendly_name:'Flur'}},
+ 'switch.steckdose':{state:'on',attributes:{friendly_name:'Steckdose'}},
+ 'sensor.temperatur':{state:'21.4',attributes:{friendly_name:'Temperatur',unit_of_measurement:'°C'}},
+ 'sensor.feuchte':{state:'56',attributes:{friendly_name:'Luftfeuchte',unit_of_measurement:'%'}},
+ 'weather.zuhause':{state:up?'partlycloudy':'clear-night',attributes:{friendly_name:'Zuhause',temperature:7.3,temperature_unit:'°C'}},
+ 'weather.regen':{state:'rainy',attributes:{friendly_name:'Zuhause',temperature:4.1}},
+ 'todo.einkauf':{state:'3',attributes:{friendly_name:'Einkauf'}},
+ 'timer.kueche':{state:'active',attributes:{friendly_name:'Küche',duration:'0:20:00',finishes_at:inMin(12.57)}},
+ 'timer.pause':{state:'idle',attributes:{friendly_name:'Pause',duration:'0:05:00'}},
+ 'sensor.abfahrten':{state:inMin(3),attributes:{friendly_name:'Abfahrten',line:'5',direction:'Hauptbahnhof',delay:60,next:[
+   {departure:inMin(8),line:'5',direction:'Hauptbahnhof',delay:0},{departure:inMin(11),line:'M4',direction:'Stadtpark',delay:120},{departure:inMin(17),line:'181',direction:'Messe Nord',delay:0},{departure:inMin(74),line:'5',direction:'Hauptbahnhof',delay:0}]}},
+ 'event.nachrichten':{state:inMin(-12),last_changed:inMin(-12),attributes:{friendly_name:'Nachrichten',entries:[
+   {title:'Stadtrat beschließt neuen Radweg entlang des Flusses',published:inMin(-12)},{title:'Wochenmarkt zieht ab Januar auf den Rathausplatz',published:inMin(-95)},{title:'Bibliothek verlängert Öffnungszeiten am Wochenende',published:inMin(-300)},{title:'Schwimmbad nach Sanierung wieder geöffnet',published:inMin(-1500)}]}},
+};
+let items=[{uid:'1',summary:'Brot',status:'needs_action'},{uid:'2',summary:'Milch und Butter',status:'needs_action',due:day(1).toISOString().slice(0,10)},{uid:'3',summary:'Kaffee',status:'needs_action'},{uid:'4',summary:'Äpfel',status:'completed'}];
+const cards=[];
+const hass={language:'de',locale:{language:'de'},config:{latitude:50.1,longitude:8.7,time_zone:Intl.DateTimeFormat().resolvedOptions().timeZone},states,
+ callApi:async()=>[
+  {summary:'Besprechung',start:{dateTime:iso(day(0),(now.getHours()+1)%24,30)},end:{dateTime:iso(day(0),(now.getHours()+2)%24,15)},location:'Raum 3'},
+  {summary:'Zahnarzt',start:{dateTime:iso(day(1),9,0)},end:{dateTime:iso(day(1),9,45)}},
+  {summary:'Markttag',start:{date:day(2).toISOString().slice(0,10)},end:{date:day(3).toISOString().slice(0,10)}},
+  {summary:'Konzert',start:{dateTime:iso(day(3),20,0)},end:{dateTime:iso(day(3),22,30)},location:'Halle'}],
+ callWS:async m=>{
+  if(m.type==='todo/item/list')return{items:items.map(x=>({...x}))};
+  if(m.type==='history/history_during_period'){const id=m.entity_ids[0],s=+new Date(m.start_time),e=+new Date(m.end_time),base=parseFloat(states[id].state),out=[];
+   for(let i=0;i<=96;i++){const t=s+(e-s)*i/96;out.push({s:String((base+Math.sin(i/9)*base*.08+Math.cos(i/3.1)*base*.02).toFixed(2)),lu:t/1000})}return{[id]:out}}
+  return{}},
+ callService:async(dom,svc,data,target)=>{
+  if(dom==='todo'){const it=items.find(x=>x.uid===data.item);if(it)it.status=data.status;return}
+  const id=(data&&data.entity_id)||(target&&target.entity_id),s=states[id];if(!s)return;
+  if(svc==='toggle')states[id]={...s,state:s.state==='on'?'off':'on',last_updated:String(Date.now())};
+  if(dom==='timer')states[id]={...s,state:svc==='pause'?'paused':'active',last_updated:String(Date.now()),attributes:{...s.attributes,remaining:'0:12:34',finishes_at:inMin(12.57)}};
+  cards.forEach(c=>c.hass={...hass})},
+ connection:{subscribeMessage:async(cb,m)=>{
+  const conds=['partlycloudy','rainy','cloudy','sunny','snowy','lightning','fog'];
+  if(m.forecast_type==='daily')cb({type:'daily',forecast:[0,1,2,3,4,5,6].map(i=>({datetime:day(i).toISOString(),condition:conds[i],temperature:[8,6,9,11,3,7,5][i],templow:[2,1,4,5,-2,2,0][i],precipitation_probability:[20,80,40,0,60,70,10][i]}))});
+  else cb({type:'hourly',forecast:[...Array(30)].map((_,i)=>({datetime:new Date(+now+i*36e5).toISOString(),condition:'cloudy',temperature:+(6+4*Math.sin((i-3)/4)).toFixed(1),precipitation_probability:Math.max(0,Math.round(60*Math.sin((i-6)/4)))}))});
+  return()=>{}}}};
+const add=(host,tag,cfg,cls)=>{const e=document.createElement(tag);e.setConfig(cfg);e.hass=hass;cards.push(e);const w=document.createElement('div');w.className='c '+cls;w.append(e);host.append(w)};
+const mkStrip=bg=>{const d=document.createElement('div');d.className='strip '+bg;document.body.append(d);return d};
+const IMG=c=>'data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200"><rect width="300" height="200" fill="${c}"/><circle cx="210" cy="70" r="34" fill="#fff" opacity=".8"/><path d="M0 200L90 90l70 60 50-40 90 90z" fill="#000" opacity=".35"/></svg>`);
+const all=(bg,k)=>{let d=mkStrip(bg);
+ add(d,'viewsta-entity-card',{entity:'light.wohnzimmer',...k},'x');add(d,'viewsta-entity-card',{entity:'light.flur',...k},'x');add(d,'viewsta-entity-card',{entity:'switch.steckdose',style:'wide',...k},'w');add(d,'viewsta-entity-card',{entity:'sensor.feuchte',style:'value',...k},'s');add(d,'viewsta-entity-card',{entity:'light.wohnzimmer',...k},'q');
+ add(d,'viewsta-timer-card',{entity:'timer.kueche',...k},'s');add(d,'viewsta-timer-card',{entity:'timer.pause',style:'ring',...k},'q');
+ add(d,'viewsta-moon-card',{...k},'s');add(d,'viewsta-moon-card',{style:'only',...k},'x');
+ d=mkStrip(bg);
+ add(d,'viewsta-weather-card',{entity:'weather.zuhause',...k},'s');add(d,'viewsta-weather-card',{entity:'weather.regen',...k},'b');add(d,'viewsta-weather-card',{entity:'weather.zuhause',style:'text',...k},'s');add(d,'viewsta-weather-card',{entity:'weather.zuhause',style:'days',...k},'q');add(d,'viewsta-weather-card',{entity:'weather.zuhause',style:'days',max_items:7,...k},'t');
+ add(d,'viewsta-weather-card',{entity:'weather.zuhause',style:'temp',...k},'s');add(d,'viewsta-weather-card',{entity:'weather.zuhause',style:'rain',...k},'s');add(d,'viewsta-weather-card',{entity:'weather.zuhause',style:'combo',...k},'m');
+ d=mkStrip(bg);
+ add(d,'viewsta-calendar-card',{style:'date',...k},'x');add(d,'viewsta-calendar-card',{style:'date',...k},'q');add(d,'viewsta-calendar-card',{style:'poster',...k},'s');add(d,'viewsta-calendar-card',{style:'poster',...k},'b');
+ add(d,'viewsta-calendar-card',{entities:['calendar.a'],style:'week',...k},'s');add(d,'viewsta-calendar-card',{entities:['calendar.a'],style:'week',...k},'b');add(d,'viewsta-calendar-card',{entities:['calendar.a'],style:'dateagenda',...k},'m');add(d,'viewsta-calendar-card',{entities:['calendar.a'],style:'dateagenda',...k},'s');add(d,'viewsta-calendar-card',{entities:['calendar.a'],style:'timeline',...k},'t');add(d,'viewsta-calendar-card',{entities:['calendar.a'],style:'timeline',...k},'q');
+ d=mkStrip(bg);
+ add(d,'viewsta-todo-card',{entity:'todo.einkauf',show_completed:true,...k},'q');add(d,'viewsta-todo-card',{entity:'todo.einkauf',...k},'t');add(d,'viewsta-todo-card',{entity:'todo.einkauf',style:'count',...k},'s');
+ add(d,'viewsta-sensor-card',{entity:'sensor.temperatur',...k},'s');add(d,'viewsta-sensor-card',{entity:'sensor.temperatur',style:'bars',...k},'m');add(d,'viewsta-sensor-card',{entity:'sensor.feuchte',style:'ring',...k},'s');add(d,'viewsta-sensor-card',{entity:'sensor.temperatur',style:'value',...k},'x');
+ d=mkStrip(bg);
+ add(d,'viewsta-departures-card',{entity:'sensor.abfahrten',...k},'s');add(d,'viewsta-departures-card',{entity:'sensor.abfahrten',max_items:5,...k},'m');add(d,'viewsta-departures-card',{entity:'sensor.abfahrten',style:'next',...k},'s');
+ add(d,'viewsta-news-card',{entities:['event.nachrichten'],...k},'s');add(d,'viewsta-news-card',{entities:['event.nachrichten'],style:'list',...k},'t');add(d,'viewsta-news-card',{entities:['event.nachrichten'],style:'ticker',...k},'k');
+ add(d,'viewsta-photos-card',{images:[IMG('#3b82c4'),IMG('#c4703b')],interval:5,caption:'Beispielbild',...k},'s');
+ add(d,'viewsta-entity-card',{entity:'sensor.fehlt',...k},'x');add(d,'viewsta-weather-card',{...k},'s');};
+all('l',{palette:'Gelb · Silber',font:'rounded'});
+all('i',{palette:'Rosa · Blau',font:'archivo'});
+all('d',{palette:'Mint · Marine',font:'mono'});
+all('l',{palette:'Indigo',font:'serif'});
+all('d',{palette:'Orange · Creme',font:'rounded',night_red:true});
+</script></html>

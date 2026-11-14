@@ -2,15 +2,24 @@
 
 Colorful, modern cards for Home Assistant, inspired by Apple StandBy. Every card is one element with several styles. The look is set per card, per view or per dashboard, and does not depend on your theme, background or light/dark mode: tiles bring their own colors and contrast.
 
-Cards (version 0.2.1):
+Cards (version 0.3.0):
 
 | Card | Type | Styles |
 | --- | --- | --- |
 | Clock | `custom:viewsta-clock-card` | `digital`, `split`, `stack`, `outline`, `float`, `words`, `flip`, `analog`, `numbers`, `rings`, `station` |
-| Calendar | `custom:viewsta-calendar-card` | `agenda`, `month`, `countdown` |
+| Calendar | `custom:viewsta-calendar-card` | `agenda`, `month`, `countdown`, `date`, `poster`, `week`, `dateagenda`, `timeline` |
 | World time | `custom:viewsta-worldclock-card` | `list`, `dials` |
 | Sun | `custom:viewsta-sun-card` | arc with sunrise and sunset |
 | Day and night map | `custom:viewsta-daynight-card` | dot map with the day/night line |
+| Switch / entity | `custom:viewsta-entity-card` | `tile`, `wide`, `value`; tap toggles lights and switches, otherwise opens the details |
+| Weather | `custom:viewsta-weather-card` | `now`, `text`, `days`, `temp`, `rain`, `combo` |
+| To-do | `custom:viewsta-todo-card` | `list` (tap to check off), `count` |
+| Sensor | `custom:viewsta-sensor-card` | `chart`, `bars`, `value`, `ring` |
+| Moon | `custom:viewsta-moon-card` | `disc`, `only`; calculated, needs no integration |
+| Departures | `custom:viewsta-departures-card` | `list`, `next`; shows the sensor of an existing departures integration |
+| Photos | `custom:viewsta-photos-card` | own images with crossfade |
+| Headlines | `custom:viewsta-news-card` | `headline`, `list`, `ticker` |
+| Timer | `custom:viewsta-timer-card` | `digital`, `ring`; tap starts and pauses |
 
 Every card has a visual editor with dropdowns, switches and entity pickers. YAML works too.
 
@@ -28,7 +37,8 @@ Options that every card understands:
 
 | Option | Meaning | Default |
 | --- | --- | --- |
-| `palette` | One of the 12 palettes or `Nachtrot`, or `theme` to follow your Home Assistant theme | `Gelb · Silber` |
+| `palette` | One of the 12 palettes or `Nachtrot`, one of 16 single colors (the other colors are derived), or `theme` to follow your Home Assistant theme | `Gelb · Silber` |
+| `night_red` | Switch to `Nachtrot` while the sun is below the horizon (uses `sun.sun`) | `false` |
 | `surface` | Tile color: `accent`, `tint`, `dark`, `black`, `card` (your theme's card), `none`, or any CSS color | depends on card and style |
 | `font` | `rounded` (embedded Nunito), `archivo`, `serif`, `mono`, `theme` | `rounded` |
 | `radius` | Corner radius, e.g. `16px` | `28px` |
@@ -42,6 +52,8 @@ Clock card options:
 | `align` | `left`, `center`, `right`; styles digital and words | `center` (digital), `left` (words) |
 | `hour12` | 12-hour display with AM/PM | `false` |
 | `show_seconds` | Second hand, analog styles only | `true` |
+
+Single colors: Gelb, Orange, Rot, Pink, Magenta, Lila, Indigo, Blau, Cyan, Mint, Grün, Limette, Pfirsich, Sand, Silber, Weiß.
 
 Palettes: Gelb · Silber, Rosa · Blau, Limette · Tanne, Orange · Creme, Mint · Marine, Rot · Rosé, Lila · Gelb, Pfirsich · Bordeaux, Blau · Eis, Grün · Pink, Silber · Schwarz, Marine · Creme, Nachtrot.
 
@@ -95,11 +107,28 @@ time_zone_2: Asia/Tokyo
 name_2: Tokio
 ```
 
-The calendar card needs a calendar entity in Home Assistant, for example from the Remote Calendar integration.
+The calendar card needs a calendar entity in Home Assistant, for example from the Remote Calendar integration. The styles `date` and `poster` work without one.
+
+### Where the data comes from
+
+All cards only read what Home Assistant already has. They do not call any outside service.
+
+| Card | Needs |
+| --- | --- |
+| Switch / entity | any entity |
+| Weather | a `weather` entity; forecasts come from Home Assistant's forecast subscription |
+| To-do | a `todo` entity |
+| Sensor | a numeric entity; the curve uses the recorder history |
+| Departures | the sensor of a departures integration with the attributes `line`, `direction`, `delay` and `next` |
+| Photos | image addresses such as `/local/photo.jpg`, or `image`, `camera` or `person` entities |
+| Headlines | entities that carry a `title` attribute or an `entries` list, for example from a feed integration |
+| Timer | a `timer` helper |
+
+Not yet seen in a running Home Assistant: weather forecasts, to-do, sensor history, departures and headlines were tested with sample data only. If one of them shows nothing, please open an issue with the entity's attributes.
 
 ## Local preview
 
-Open `dev/preview.html` in a browser. It shows all cards with sample data on four backgrounds.
+Open `dev/preview.html` (clocks, calendar, sun, map) or `dev/preview-cards.html` (all other cards) in a browser. Both show the cards with sample data on several backgrounds; `?t=22:15` sets a fixed time. Icons are placeholders there, the real ones come from Home Assistant.
 
 ## License and credits
 
