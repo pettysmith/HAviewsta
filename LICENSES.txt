@@ -1,10 +1,11 @@
 LIZENZEN DER EINGEBETTETEN SCHRIFTEN UND DATEN (Viewsta)
 
 === Schriften (SIL Open Font License 1.1) ===
-Archivo Black, Space Mono und VT323 sind als WOFF2 eingebettet (Dateien aus den Fontsource-Paketen @fontsource/archivo-black 5.3.0, @fontsource/space-mono 5.3.0, @fontsource/vt323 5.3.0).
+Archivo Black, Space Mono, VT323 und Nunito sind als WOFF2 eingebettet (Dateien aus den Fontsource-Paketen @fontsource/archivo-black 5.3.0, @fontsource/space-mono 5.3.0, @fontsource/vt323 5.3.0, @fontsource/nunito 5.3.0). Nunito (Gewichte 700 und 800) ist auf lateinische Zeichen und Ziffern gekürzt (Subset).
 Copyright 2017 The Archivo Black Project Authors (https://github.com/Omnibus-Type/ArchivoBlack)
 Copyright 2016 The Space Mono Project Authors (https://github.com/googlefonts/spacemono) SpaceMono-Italic.ttf: Copyright 2016 The Space Mono Project Authors (https://github.com/googlefonts/spacemono) SpaceMono-Bold.ttf: Copyright 2016 The Space Mono Project Authors (https://github.com/googlefonts/spacemono) SpaceMono-BoldItalic.ttf: Copyright 2016 The Space Mono Project Authors (https://github.com/googlefonts/spacemono)
 Copyright 2011, The VT323 Project Authors (peter.hull@oikoi.com)
+Copyright 2014 The Nunito Project Authors (https://github.com/googlefonts/nunito)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:
