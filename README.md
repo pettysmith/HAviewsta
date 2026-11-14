@@ -2,7 +2,7 @@
 
 Colorful, modern cards for Home Assistant, inspired by Apple StandBy. Every card is one element with several styles. The look is set per card, per view or per dashboard, and does not depend on your theme, background or light/dark mode: tiles bring their own colors and contrast.
 
-Cards (version 0.2.0):
+Cards (version 0.2.1):
 
 | Card | Type | Styles |
 | --- | --- | --- |
@@ -30,9 +30,18 @@ Options that every card understands:
 | --- | --- | --- |
 | `palette` | One of the 12 palettes or `Nachtrot`, or `theme` to follow your Home Assistant theme | `Gelb · Silber` |
 | `surface` | Tile color: `accent`, `tint`, `dark`, `black`, `card` (your theme's card), `none`, or any CSS color | depends on card and style |
-| `font` | `rounded`, `archivo`, `serif`, `mono`, `theme` | `rounded` |
+| `font` | `rounded` (embedded Nunito), `archivo`, `serif`, `mono`, `theme` | `rounded` |
 | `radius` | Corner radius, e.g. `16px` | `28px` |
-| `accent`, `on_accent`, `tint`, `text` | Override single colors | from palette |
+| `accent`, `on_accent`, `tint`, `text` | Override single colors; any CSS color works (`#fff`, `rgb()`, names) | from palette |
+
+Clock card options:
+
+| Option | Meaning | Default |
+| --- | --- | --- |
+| `colon` | `steady`, `pulse` (fades once per second) or `off`; styles digital, outline, float, flip | `steady` |
+| `align` | `left`, `center`, `right`; styles digital and words | `center` (digital), `left` (words) |
+| `hour12` | 12-hour display with AM/PM | `false` |
+| `show_seconds` | Second hand, analog styles only | `true` |
 
 Palettes: Gelb · Silber, Rosa · Blau, Limette · Tanne, Orange · Creme, Mint · Marine, Rot · Rosé, Lila · Gelb, Pfirsich · Bordeaux, Blau · Eis, Grün · Pink, Silber · Schwarz, Marine · Creme, Nachtrot.
 

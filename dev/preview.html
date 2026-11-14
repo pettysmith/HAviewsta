@@ -3,31 +3,66 @@
 <style>
 body{margin:0;font:14px system-ui}
 .strip{padding:18px;display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start}
-.l{background:#f2f2f7}.d{background:#111}.i{background:linear-gradient(135deg,#2b5876,#4e4376 60%,#c06c84)}.g{background:linear-gradient(160deg,#f6d365,#fda085)}
+.l{background:#f2f2f7;--primary-text-color:#111;--secondary-text-color:#555;--primary-background-color:#f2f2f7}.d{background:#111;--primary-text-color:#fff;--secondary-text-color:#aaa;--primary-background-color:#111}.i{background:linear-gradient(135deg,#2b5876,#4e4376 60%,#c06c84)}.g{background:linear-gradient(160deg,#f6d365,#fda085)}
+/* Dashboard-Theme mit heller Primärfarbe, prüft palette: theme */
+.th{background:#fbf3f1;--primary-color:#e8d6a0;--text-primary-color:#ffffff;--primary-text-color:#1b1b2f;--secondary-text-color:#5a5a6e;--secondary-background-color:#efe7e4;--ha-card-background:#ffffff}
 .c>*{height:100%;display:block}
 .s{width:230px;height:140px}.q{width:200px;height:200px}.t{width:250px;height:290px}.m{width:380px;height:190px}
+.w{width:420px;height:210px}.n{width:120px;height:80px}.h{width:300px;height:140px}
 </style>
 <body>
 <div id="root"></div>
+<script>
+/* ?t=HH:MM setzt eine feste Uhrzeit, z. B. dev/preview.html?t=22:15 für den Nachtfall */
+const FT=new URLSearchParams(location.search).get('t');
+if(FT){const R=Date,[hh,mm]=FT.split(':').map(Number),n=new R(),o=new R(n.getFullYear(),n.getMonth(),n.getDate(),hh,mm,0)-n;
+ window.Date=class extends R{constructor(...a){a.length?super(...a):super(R.now()+o)}static now(){return R.now()+o}}}
+</script>
 <script src="../dist/viewsta.js"></script>
 <script>
 const now=new Date(),iso=(d,h,m)=>{const x=new Date(d);x.setHours(h,m,0,0);return x.toISOString()};
 const day=(n)=>{const x=new Date(now);x.setDate(x.getDate()+n);return x};
+/* Sonne wie in Home Assistant: next_rising / next_setting liegen immer in der Zukunft */
+const up=now.getHours()*60+now.getMinutes()>=7*60+44&&now.getHours()*60+now.getMinutes()<16*60+24;
+const afterSet=now.getHours()*60+now.getMinutes()>=16*60+24;
+const sun={state:up?'above_horizon':'below_horizon',attributes:{
+ next_rising:iso(day(up?1:(afterSet?1:0)),7,44),
+ next_setting:iso(day(up?0:(afterSet?1:0)),16,24)}};
 const hass={language:'de',locale:{language:'de'},config:{latitude:50.1,longitude:8.7,time_zone:Intl.DateTimeFormat().resolvedOptions().timeZone},
- states:{'sun.sun':{state:'above_horizon',attributes:{next_rising:iso(day(1),7,41),next_setting:iso(day(0),16,28)}}},
+ states:{'sun.sun':sun},
  callApi:async()=>[
   {summary:'Besprechung',start:{dateTime:iso(day(0),(now.getHours()+1)%24,30)},end:{dateTime:iso(day(0),(now.getHours()+2)%24,15)},location:'Raum 3'},
   {summary:'Zahnarzt',start:{dateTime:iso(day(0),19,0)},end:{dateTime:iso(day(0),19,45)}},
   {summary:'Markttag',start:{date:day(1).toISOString().slice(0,10)},end:{date:day(2).toISOString().slice(0,10)}},
   {summary:'Konzert',start:{dateTime:iso(day(3),20,0)},end:{dateTime:iso(day(3),22,30)},location:'Halle'}]};
 const add=(host,tag,cfg,cls)=>{const e=document.createElement(tag);e.setConfig(cfg);e.hass=hass;const w=document.createElement('div');w.className='c '+cls;w.append(e);host.append(w)};
+const Z3=[{tz:'Europe/London',name:'London'},{tz:'America/New_York',name:'New York'},{tz:'Asia/Tokyo',name:'Tokio'}];
+const Z6=[...Z3,{tz:'Australia/Sydney',name:'Sydney'},{tz:'America/Los_Angeles',name:'Los Angeles'},{tz:'Asia/Kolkata',name:'Kalkutta'}];
 const strip=(bg,common,sets)=>{const d=document.createElement('div');d.className='strip '+bg;document.body.append(d);
  add(d,'viewsta-clock-card',{style:'digital',...common},'s');add(d,'viewsta-clock-card',{style:'analog',...common},'q');add(d,'viewsta-clock-card',{style:'split',...common},'s');add(d,'viewsta-clock-card',{style:'flip',...common},'s');
  add(d,'viewsta-calendar-card',{entities:['calendar.a'],style:'agenda',...common},'t');add(d,'viewsta-calendar-card',{entities:['calendar.a'],style:'month',...common},'q');add(d,'viewsta-calendar-card',{entities:['calendar.a'],style:'countdown',...common},'s');
- add(d,'viewsta-worldclock-card',{zones:[{tz:'Europe/London',name:'London'},{tz:'America/New_York',name:'New York'},{tz:'Asia/Tokyo',name:'Tokio'}],...common},'s');add(d,'viewsta-worldclock-card',{zones:[{tz:'Europe/London',name:'London'},{tz:'America/New_York',name:'New York'},{tz:'Asia/Tokyo',name:'Tokio'},{tz:'Australia/Sydney',name:'Sydney'}],style:'dials',...common},'q');
+ add(d,'viewsta-worldclock-card',{zones:Z3,...common},'s');add(d,'viewsta-worldclock-card',{zones:Z3,style:'dials',...common},'q');
  add(d,'viewsta-sun-card',{...common},'s');add(d,'viewsta-daynight-card',{...common},'m');};
+/* Uhr: Doppelpunkt, 12 Stunden, Ausrichtung, kleine und breite Kacheln */
+const clocks=(bg,common)=>{const d=document.createElement('div');d.className='strip '+bg;document.body.append(d);
+ add(d,'viewsta-clock-card',{style:'digital',colon:'pulse',...common},'s');
+ add(d,'viewsta-clock-card',{style:'digital',hour12:true,...common},'s');
+ add(d,'viewsta-clock-card',{style:'digital',align:'left',colon:'off',...common},'s');
+ add(d,'viewsta-clock-card',{style:'digital',align:'right',...common},'s');
+ add(d,'viewsta-clock-card',{style:'digital',long_date:true,...common},'w');
+ add(d,'viewsta-clock-card',{style:'digital',...common},'n');
+ add(d,'viewsta-clock-card',{style:'outline',colon:'pulse',...common},'s');add(d,'viewsta-clock-card',{style:'float',hour12:true,...common},'s');
+ add(d,'viewsta-clock-card',{style:'flip',colon:'pulse',...common},'s');add(d,'viewsta-clock-card',{style:'flip',hour12:true,...common},'w');
+ add(d,'viewsta-clock-card',{style:'words',align:'center',...common},'s');
+ add(d,'viewsta-worldclock-card',{zones:Z6,...common},'q');add(d,'viewsta-worldclock-card',{zones:Z6,style:'dials',...common},'q');
+ add(d,'viewsta-sun-card',{...common},'w');add(d,'viewsta-sun-card',{...common},'h');
+ add(d,'viewsta-daynight-card',{surface:'none',...common},'m');add(d,'viewsta-calendar-card',{entities:['calendar.a'],style:'month',surface:'none',...common},'q');};
 strip('l',{palette:'Gelb · Silber',font:'rounded'});
 strip('i',{palette:'Rosa · Blau',font:'archivo'});
 strip('d',{palette:'Mint · Marine',font:'mono'});
 strip('g',{palette:'Limette · Tanne',font:'serif'});
+strip('th',{palette:'theme',surface:'accent',font:'rounded'});
+strip('d',{palette:'Nachtrot',font:'rounded'});
+clocks('l',{palette:'Rosa · Blau',font:'rounded'});
+clocks('d',{palette:'Gelb · Silber',font:'rounded'});
 </script></html>
