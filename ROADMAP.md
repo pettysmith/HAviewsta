@@ -2,6 +2,9 @@
 
 Entscheidungen des Projektinhabers: nur Karten, einzeln einstellbarer Look wie bei Frosted Glass, aber farbig und modern; farbige Kacheln mit eigenen Kontrasten, unabhängig von Hintergrund, Hell/Dunkel und Theme; mehrere Schriften. Alles Weitere sind Vorschläge.
 
+## 0.4.0
+Schalter-Karte: Regler direkt auf der Kachel (Helligkeit, Farbe, Farbtemperatur, Position, Stufe, Lautstärke, Solltemperatur, Wert), wählbar im Editor; Antippen, Doppeltipp und Halten einstellbar; ausgeschaltet werden die beiden Akzentfarben getauscht statt die Kachel abzudunkeln (neue Kachelfarbe „Akzent umgekehrt“ für alle Karten). Vorschau: Karten ohne gewählte Entität zeigen Beispieldaten mit dem Hinweis „Beispiel“, und nur in der Abschnitte-Ansicht füllt die Karte die Zelle (in der Kartenauswahl behält sie ihr Format). Schnittstellen am Quelltext des Home-Assistant-Frontends nachgelesen. In Chromium geprüft, in Home Assistant und auf dem iPhone noch zu bestätigen.
+
 ## 0.3.2
 Karten füllen in der Abschnitte-Ansicht ihre Rasterzelle (vorher blieb die Karte bei ihrem Entwurfsformat und der Inhalt wurde in Safari winzig und abgeschnitten). Innenfläche wird fest positioniert statt über eine Prozenthöhe berechnet. Schriftgrößen sind auch in hohen Zellen begrenzt. Vorschau mit quadratischen, hohen und nur in der Breite festgelegten Zellen. In Chromium geprüft, auf dem iPhone noch zu bestätigen.
 

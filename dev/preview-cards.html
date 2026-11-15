@@ -7,6 +7,8 @@ body{margin:0;font:14px system-ui}
 .d{background:#111;--primary-text-color:#fff;--secondary-text-color:#aaa;--primary-background-color:#111}
 .i{background:linear-gradient(135deg,#2b5876,#4e4376 60%,#c06c84)}
 .s{width:230px;height:140px}.q{width:200px;height:200px}.t{width:250px;height:290px}.m{width:380px;height:190px}
+.pk{width:300px;display:flex;align-items:center;justify-content:center}.pk>*{display:block;width:100%}
+.e1{width:210px;height:150px}.e2{width:300px;height:210px}.e3{width:210px;height:260px}
 .sq{width:210px;height:210px}.hi{width:210px;height:300px}.ma{width:260px}
 .x{width:120px;height:120px}.w{width:300px;height:100px}.b{width:420px;height:210px}.k{width:420px;height:70px}
 </style>
@@ -28,8 +30,11 @@ const mins=now.getHours()*60+now.getMinutes(),up=mins>=464&&mins<984,after=mins>
 const inMin=m=>new Date(+now+m*6e4).toISOString();
 const states={
  'sun.sun':{state:up?'above_horizon':'below_horizon',attributes:{next_rising:iso(day(up||after?1:0),7,44),next_setting:iso(day(up?0:(after?1:0)),16,24)}},
- 'light.wohnzimmer':{state:'on',attributes:{friendly_name:'Wohnzimmer',brightness:158}},
- 'light.flur':{state:'off',attributes:{friendly_name:'Flur'}},
+ 'light.wohnzimmer':{state:'on',attributes:{friendly_name:'Wohnzimmer',brightness:158,supported_color_modes:['color_temp','rgb'],rgb_color:[255,149,0],color_temp_kelvin:3200,min_color_temp_kelvin:2200,max_color_temp_kelvin:6500}},
+ 'cover.rollo':{state:'open',attributes:{friendly_name:'Rollladen',current_position:70}},
+ 'media_player.box':{state:'playing',attributes:{friendly_name:'Lautsprecher',volume_level:.35}},
+ 'climate.heizung':{state:'heat',attributes:{friendly_name:'Heizung',temperature:21,min_temp:7,max_temp:28,target_temp_step:.5}},
+ 'light.flur':{state:'off',attributes:{friendly_name:'Flur',supported_color_modes:['brightness']}},
  'switch.steckdose':{state:'on',attributes:{friendly_name:'Steckdose'}},
  'sensor.temperatur':{state:'21.4',attributes:{friendly_name:'Temperatur',unit_of_measurement:'°C'}},
  'sensor.feuchte':{state:'56',attributes:{friendly_name:'Luftfeuchte',unit_of_measurement:'%'}},
@@ -59,6 +64,8 @@ const hass={language:'de',locale:{language:'de'},config:{latitude:50.1,longitude
  callService:async(dom,svc,data,target)=>{
   if(dom==='todo'){const it=items.find(x=>x.uid===data.item);if(it)it.status=data.status;return}
   const id=(data&&data.entity_id)||(target&&target.entity_id),s=states[id];if(!s)return;
+  window.__calls=(window.__calls||[]);window.__calls.push([dom,svc,JSON.stringify(data)]);
+  if(dom==='light'&&svc==='turn_on'){const a={...s.attributes};if(data.brightness_pct!=null)a.brightness=Math.round(data.brightness_pct*2.55);if(data.rgb_color)a.rgb_color=data.rgb_color;if(data.color_temp_kelvin)a.color_temp_kelvin=data.color_temp_kelvin;states[id]={...s,state:'on',attributes:a,last_updated:String(Date.now())}}
   if(svc==='toggle')states[id]={...s,state:s.state==='on'?'off':'on',last_updated:String(Date.now())};
   if(dom==='timer')states[id]={...s,state:svc==='pause'?'paused':'active',last_updated:String(Date.now()),attributes:{...s.attributes,remaining:'0:12:34',finishes_at:inMin(12.57)}};
   cards.forEach(c=>c.hass={...hass})},
@@ -67,7 +74,7 @@ const hass={language:'de',locale:{language:'de'},config:{latitude:50.1,longitude
   if(m.forecast_type==='daily')cb({type:'daily',forecast:[0,1,2,3,4,5,6].map(i=>({datetime:day(i).toISOString(),condition:conds[i],temperature:[8,6,9,11,3,7,5][i],templow:[2,1,4,5,-2,2,0][i],precipitation_probability:[20,80,40,0,60,70,10][i]}))});
   else cb({type:'hourly',forecast:[...Array(30)].map((_,i)=>({datetime:new Date(+now+i*36e5).toISOString(),condition:'cloudy',temperature:+(6+4*Math.sin((i-3)/4)).toFixed(1),precipitation_probability:Math.max(0,Math.round(60*Math.sin((i-6)/4)))}))});
   return()=>{}}}};
-const add=(host,tag,cfg,cls)=>{const e=document.createElement(tag);e.setConfig(cfg);e.hass=hass;cards.push(e);const w=document.createElement('div');w.className='c '+cls;w.append(e);host.append(w)};
+const add=(host,tag,cfg,cls)=>{const e=document.createElement(tag);e.setConfig(cfg);e.hass=hass;if(cls!=='ma'&&cls!=='pk')e.layout='grid';cards.push(e);const w=document.createElement('div');w.className='c '+cls;w.append(e);host.append(w)};
 const mkStrip=bg=>{const d=document.createElement('div');d.className='strip '+bg;document.body.append(d);return d};
 const IMG=c=>'data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200"><rect width="300" height="200" fill="${c}"/><circle cx="210" cy="70" r="34" fill="#fff" opacity=".8"/><path d="M0 200L90 90l70 60 50-40 90 90z" fill="#000" opacity=".35"/></svg>`);
 const all=(bg,k)=>{let d=mkStrip(bg);
@@ -93,6 +100,14 @@ const shapes=(bg,k,cls)=>{const d=mkStrip(bg);
  add(d,'viewsta-clock-card',{style:'digital',...k},cls);add(d,'viewsta-clock-card',{style:'flip',...k},cls);add(d,'viewsta-clock-card',{style:'words',...k},cls);add(d,'viewsta-sun-card',{...k},cls);add(d,'viewsta-daynight-card',{...k},cls);add(d,'viewsta-worldclock-card',{zones:['Europe/London','America/New_York','Asia/Tokyo'],...k},cls);
  add(d,'viewsta-departures-card',{entity:'sensor.abfahrten',style:'next',...k},cls);add(d,'viewsta-departures-card',{entity:'sensor.abfahrten',...k},cls);add(d,'viewsta-moon-card',{...k},cls);add(d,'viewsta-weather-card',{entity:'weather.zuhause',...k},cls);add(d,'viewsta-weather-card',{entity:'weather.zuhause',style:'temp',...k},cls);
  add(d,'viewsta-timer-card',{entity:'timer.kueche',...k},cls);add(d,'viewsta-sensor-card',{entity:'sensor.temperatur',...k},cls);add(d,'viewsta-calendar-card',{entities:['calendar.a'],style:'countdown',...k},cls);add(d,'viewsta-calendar-card',{style:'poster',...k},cls);add(d,'viewsta-todo-card',{entity:'todo.einkauf',style:'count',...k},cls);add(d,'viewsta-entity-card',{entity:'light.wohnzimmer',style:'wide',...k},cls);add(d,'viewsta-news-card',{entities:['event.nachrichten'],...k},cls);};
+/* Kartenauswahl von Home Assistant: zentrierender Flex-Rahmen, Karten ohne gewählte Entität zeigen Beispieldaten */
+const picker=bg=>{const d=mkStrip(bg);window.customCards.forEach(c=>{const C=customElements.get(c.type);add(d,c.type,C.getStubConfig({states:{}}),'pk')})};
+picker('l');
+/* Schalter-Karte mit Reglern */
+const ctl=(bg,k)=>{const d=mkStrip(bg);
+ add(d,'viewsta-entity-card',{entity:'light.wohnzimmer',...k},'e1');add(d,'viewsta-entity-card',{entity:'light.wohnzimmer',controls:['brightness','color'],...k},'e2');add(d,'viewsta-entity-card',{entity:'light.wohnzimmer',controls:['brightness','color_temp','color'],...k},'e3');
+ add(d,'viewsta-entity-card',{entity:'light.flur',...k},'e1');add(d,'viewsta-entity-card',{entity:'light.flur',off_surface:'dark',...k},'x');add(d,'viewsta-entity-card',{entity:'cover.rollo',style:'wide',...k},'e2');add(d,'viewsta-entity-card',{entity:'media_player.box',style:'value',...k},'e2');add(d,'viewsta-entity-card',{entity:'climate.heizung',...k},'e1');add(d,'viewsta-entity-card',{entity:'light.wohnzimmer',controls:['none'],double_tap_action:'more-info',...k},'x');};
+ctl('l',{palette:'Rosa · Blau',font:'rounded'});ctl('d',{palette:'Gelb · Silber',font:'rounded'});ctl('i',{palette:'Limette · Tanne',font:'rounded'});
 shapes('d',{palette:'Limette · Tanne',font:'rounded'},'sq');
 shapes('l',{palette:'Rot · Rosé',font:'rounded'},'hi');
 shapes('d',{palette:'Gelb · Silber',font:'rounded'},'ma');
