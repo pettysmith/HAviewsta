@@ -2,7 +2,10 @@
 
 Entscheidungen des Projektinhabers: nur Karten, einzeln einstellbarer Look wie bei Frosted Glass, aber farbig und modern; farbige Kacheln mit eigenen Kontrasten, unabhängig von Hintergrund, Hell/Dunkel und Theme; mehrere Schriften. Alles Weitere sind Vorschläge.
 
-## 0.3.1 (vorbereitet)
+## 0.3.2
+Karten füllen in der Abschnitte-Ansicht ihre Rasterzelle (vorher blieb die Karte bei ihrem Entwurfsformat und der Inhalt wurde in Safari winzig und abgeschnitten). Innenfläche wird fest positioniert statt über eine Prozenthöhe berechnet. Schriftgrößen sind auch in hohen Zellen begrenzt. Vorschau mit quadratischen, hohen und nur in der Breite festgelegten Zellen. In Chromium geprüft, auf dem iPhone noch zu bestätigen.
+
+## 0.3.1
 Darstellung auf dem iPhone (Safari): Zeichnungen haben jetzt feste Größen statt einer Höhe aus dem Seitenverhältnis, damit unten nichts mehr abgeschnitten wird (Sonne, Ziffernblätter, Tag-Nacht-Karte, Ringe, Mond, Kurven). Ziffernblätter der Weltzeit füllen die Kachel und stehen mittig, auch bei ungerader Anzahl. Nur in Chromium geprüft, auf dem iPhone noch zu bestätigen.
 
 ## 0.3.0 (vorbereitet)
