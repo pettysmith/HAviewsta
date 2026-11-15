@@ -34,7 +34,7 @@ const hass={language:'de',locale:{language:'de'},config:{latitude:50.1,longitude
   {summary:'Zahnarzt',start:{dateTime:iso(day(0),19,0)},end:{dateTime:iso(day(0),19,45)}},
   {summary:'Markttag',start:{date:day(1).toISOString().slice(0,10)},end:{date:day(2).toISOString().slice(0,10)}},
   {summary:'Konzert',start:{dateTime:iso(day(3),20,0)},end:{dateTime:iso(day(3),22,30)},location:'Halle'}]};
-const add=(host,tag,cfg,cls)=>{const e=document.createElement(tag);e.setConfig(cfg);e.hass=hass;const w=document.createElement('div');w.className='c '+cls;w.append(e);host.append(w)};
+const add=(host,tag,cfg,cls)=>{const e=document.createElement(tag);e.setConfig(cfg);e.hass=hass;e.layout='grid';const w=document.createElement('div');w.className='c '+cls;w.append(e);host.append(w)};
 const Z3=[{tz:'Europe/London',name:'London'},{tz:'America/New_York',name:'New York'},{tz:'Asia/Tokyo',name:'Tokio'}];
 const Z6=[...Z3,{tz:'Australia/Sydney',name:'Sydney'},{tz:'America/Los_Angeles',name:'Los Angeles'},{tz:'Asia/Kolkata',name:'Kalkutta'}];
 const strip=(bg,common,sets)=>{const d=document.createElement('div');d.className='strip '+bg;document.body.append(d);

@@ -2,7 +2,7 @@
 
 Colorful, modern cards for Home Assistant, inspired by Apple StandBy. Every card is one element with several styles. The look is set per card, per view or per dashboard, and does not depend on your theme, background or light/dark mode: tiles bring their own colors and contrast.
 
-Cards (version 0.3.2):
+Cards (version 0.4.0):
 
 | Card | Type | Styles |
 | --- | --- | --- |
@@ -11,7 +11,7 @@ Cards (version 0.3.2):
 | World time | `custom:viewsta-worldclock-card` | `list`, `dials` |
 | Sun | `custom:viewsta-sun-card` | arc with sunrise and sunset |
 | Day and night map | `custom:viewsta-daynight-card` | dot map with the day/night line |
-| Switch / entity | `custom:viewsta-entity-card` | `tile`, `wide`, `value`; tap toggles lights and switches, otherwise opens the details |
+| Switch / entity | `custom:viewsta-entity-card` | `tile`, `wide`, `value`; sliders and color buttons on the tile, tap, double tap and hold |
 | Weather | `custom:viewsta-weather-card` | `now`, `text`, `days`, `temp`, `rain`, `combo` |
 | To-do | `custom:viewsta-todo-card` | `list` (tap to check off), `count` |
 | Sensor | `custom:viewsta-sensor-card` | `chart`, `bars`, `value`, `ring` |
@@ -39,10 +39,23 @@ Options that every card understands:
 | --- | --- | --- |
 | `palette` | One of the 12 palettes or `Nachtrot`, one of 16 single colors (the other colors are derived), or `theme` to follow your Home Assistant theme | `Gelb · Silber` |
 | `night_red` | Switch to `Nachtrot` while the sun is below the horizon (uses `sun.sun`) | `false` |
-| `surface` | Tile color: `accent`, `tint`, `dark`, `black`, `card` (your theme's card), `none`, or any CSS color | depends on card and style |
+| `surface` | Tile color: `accent`, `invert` (accent colors swapped), `tint`, `dark`, `black`, `card` (your theme's card), `none`, or any CSS color | depends on card and style |
 | `font` | `rounded` (embedded Nunito), `archivo`, `serif`, `mono`, `theme` | `rounded` |
 | `radius` | Corner radius, e.g. `16px` | `28px` |
 | `accent`, `on_accent`, `tint`, `text` | Override single colors; any CSS color works (`#fff`, `rgb()`, names) | from palette |
+
+Switch / entity card options:
+
+| Option | Meaning | Default |
+| --- | --- | --- |
+| `controls` | Controls shown on the tile: `brightness`, `color`, `color_temp` (lights), `position` (covers), `speed` (fans), `volume` (media players), `temperature` (climate), `value` (numbers), `none` | the main control of the entity |
+| `colors` | Colors offered by the `color` control, any CSS colors | nine preset colors |
+| `tap_action`, `double_tap_action`, `hold_action` | `auto` (toggle, or details if the entity cannot be toggled), `toggle`, `more-info`, `none` | `auto`, `none`, `more-info` |
+| `off_surface` | Tile while the entity is off: `invert`, `dark`, `black`, `tint`, `card`, `none` | `invert` |
+
+Drag a slider or tap it to set a value; the tile is on the accent color while the entity is on and swaps its two colors while it is off.
+
+A card without an entity shows sample data marked "Beispiel", so the card picker and a freshly added card look like the finished card.
 
 Clock card options:
 
@@ -124,7 +137,7 @@ All cards only read what Home Assistant already has. They do not call any outsid
 | Headlines | entities that carry a `title` attribute or an `entries` list, for example from a feed integration |
 | Timer | a `timer` helper |
 
-Not yet seen in a running Home Assistant: weather forecasts, to-do, sensor history, departures and headlines were tested with sample data only. If one of them shows nothing, please open an issue with the entity's attributes.
+The calls for weather forecasts, to-do lists, sensor history, the details dialog and the grid layout were checked against the Home Assistant frontend source. The attribute names of departure and headline entities were not; if one of these cards shows nothing, please open an issue with the entity's attributes.
 
 ## Local preview
 
