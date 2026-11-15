@@ -6,8 +6,8 @@ body{margin:0;font:14px system-ui}
 .l{background:#f2f2f7;--primary-text-color:#111;--secondary-text-color:#555;--primary-background-color:#f2f2f7}
 .d{background:#111;--primary-text-color:#fff;--secondary-text-color:#aaa;--primary-background-color:#111}
 .i{background:linear-gradient(135deg,#2b5876,#4e4376 60%,#c06c84)}
-.c>*{height:100%;display:block}
 .s{width:230px;height:140px}.q{width:200px;height:200px}.t{width:250px;height:290px}.m{width:380px;height:190px}
+.sq{width:210px;height:210px}.hi{width:210px;height:300px}.ma{width:260px}
 .x{width:120px;height:120px}.w{width:300px;height:100px}.b{width:420px;height:210px}.k{width:420px;height:70px}
 </style>
 <body>
@@ -88,6 +88,14 @@ const all=(bg,k)=>{let d=mkStrip(bg);
  add(d,'viewsta-news-card',{entities:['event.nachrichten'],...k},'s');add(d,'viewsta-news-card',{entities:['event.nachrichten'],style:'list',...k},'t');add(d,'viewsta-news-card',{entities:['event.nachrichten'],style:'ticker',...k},'k');
  add(d,'viewsta-photos-card',{images:[IMG('#3b82c4'),IMG('#c4703b')],interval:5,caption:'Beispielbild',...k},'s');
  add(d,'viewsta-entity-card',{entity:'sensor.fehlt',...k},'x');add(d,'viewsta-weather-card',{...k},'s');};
+/* Zellen in anderen Formen als der Entwurf: quadratisch und hoch (Abschnitte-Ansicht), nur Breite (Masonry) */
+const shapes=(bg,k,cls)=>{const d=mkStrip(bg);
+ add(d,'viewsta-clock-card',{style:'digital',...k},cls);add(d,'viewsta-clock-card',{style:'flip',...k},cls);add(d,'viewsta-clock-card',{style:'words',...k},cls);add(d,'viewsta-sun-card',{...k},cls);add(d,'viewsta-daynight-card',{...k},cls);add(d,'viewsta-worldclock-card',{zones:['Europe/London','America/New_York','Asia/Tokyo'],...k},cls);
+ add(d,'viewsta-departures-card',{entity:'sensor.abfahrten',style:'next',...k},cls);add(d,'viewsta-departures-card',{entity:'sensor.abfahrten',...k},cls);add(d,'viewsta-moon-card',{...k},cls);add(d,'viewsta-weather-card',{entity:'weather.zuhause',...k},cls);add(d,'viewsta-weather-card',{entity:'weather.zuhause',style:'temp',...k},cls);
+ add(d,'viewsta-timer-card',{entity:'timer.kueche',...k},cls);add(d,'viewsta-sensor-card',{entity:'sensor.temperatur',...k},cls);add(d,'viewsta-calendar-card',{entities:['calendar.a'],style:'countdown',...k},cls);add(d,'viewsta-calendar-card',{style:'poster',...k},cls);add(d,'viewsta-todo-card',{entity:'todo.einkauf',style:'count',...k},cls);add(d,'viewsta-entity-card',{entity:'light.wohnzimmer',style:'wide',...k},cls);add(d,'viewsta-news-card',{entities:['event.nachrichten'],...k},cls);};
+shapes('d',{palette:'Limette · Tanne',font:'rounded'},'sq');
+shapes('l',{palette:'Rot · Rosé',font:'rounded'},'hi');
+shapes('d',{palette:'Gelb · Silber',font:'rounded'},'ma');
 all('l',{palette:'Gelb · Silber',font:'rounded'});
 all('i',{palette:'Rosa · Blau',font:'archivo'});
 all('d',{palette:'Mint · Marine',font:'mono'});
