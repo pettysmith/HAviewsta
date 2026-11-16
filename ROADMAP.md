@@ -2,6 +2,11 @@
 
 Entscheidungen des Projektinhabers: nur Karten, einzeln einstellbarer Look wie bei Frosted Glass, aber farbig und modern; farbige Kacheln mit eigenen Kontrasten, unabhängig von Hintergrund, Hell/Dunkel und Theme; mehrere Schriften. Alles Weitere sind Vorschläge.
 
+## 0.5.0
+Neue Karten: Raum (Temperatur, Feuchte, Lichter, Fenster und Türen, Helligkeitsregler, wählbar), Szenen-Leiste, Fortschritt (Tag, Woche, Monat, Jahr), Wikipedia (Was geschah heute, Artikel des Tages). Schalter-Karte: Stil „Schalter“ mit großem Symbol ohne Regler, Option „Regler ausblenden, wenn ausgeschaltet“. Fotos: Bilder aus Immich oder einer anderen Medienquelle, Hochladen vom Gerät. Wetter: Satz neu formuliert, dazu UV-Index, Wind mit Richtung und Einzelwerte. Sensor: Stil „Pegel“. Uhr: einheitliche Größen und Ränder, in quadratischen Kacheln Stunden über Minuten, Klapptafel und Bahnhofsuhr in klassischen Farben, Bahnhofsuhr nachts rot.
+
+Offen: Test in Home Assistant und auf dem iPhone. Wikipedia war aus der Entwicklungsumgebung nicht erreichbar und ist nur mit nachgestellten Daten geprüft; die Nutzungsbedingungen von Wikimedia sind noch an der Quelle zu lesen. Zurückgestellt auf Wunsch: Rezept-Karte.
+
 ## 0.4.0
 Schalter-Karte: Regler direkt auf der Kachel (Helligkeit, Farbe, Farbtemperatur, Position, Stufe, Lautstärke, Solltemperatur, Wert), wählbar im Editor; Antippen, Doppeltipp und Halten einstellbar; ausgeschaltet werden die beiden Akzentfarben getauscht statt die Kachel abzudunkeln (neue Kachelfarbe „Akzent umgekehrt“ für alle Karten). Vorschau: Karten ohne gewählte Entität zeigen Beispieldaten mit dem Hinweis „Beispiel“, und nur in der Abschnitte-Ansicht füllt die Karte die Zelle (in der Kartenauswahl behält sie ihr Format). Schnittstellen am Quelltext des Home-Assistant-Frontends nachgelesen. In Chromium geprüft, in Home Assistant und auf dem iPhone noch zu bestätigen.
 
@@ -26,6 +31,6 @@ Klick-Editor für alle Karten (Formular von Home Assistant). Nach Screenshots de
 Uhr (11 Stile), Termine (Liste, Monat, Countdown), Weltzeit (Liste, Ziffernblätter), Sonne, Tag-Nacht-Karte. Palette, Oberfläche, Schrift und Radius je Karte; Dashboard-weit über Ansichts-Theme, Helfer oder CSS-Variablen.
 
 ## Später
-- Rezept des Tages, sobald der Aufbau der Rezeptesammlung bekannt ist. Nicht gewünscht: Gestirne, Medien-Karte.
+- Rezept des Tages (auf Wunsch, Rezepte bleiben außerhalb des Repos). Nicht gewünscht: Gestirne, Medien-Karte.
 - Farbwähler im Editor, Zeitzonen-Suche, Klapp-Animation.
 - Eingebettete Schriften schlanker machen.

@@ -2,22 +2,26 @@
 
 Colorful, modern cards for Home Assistant, inspired by Apple StandBy. Every card is one element with several styles. The look is set per card, per view or per dashboard, and does not depend on your theme, background or light/dark mode: tiles bring their own colors and contrast.
 
-Cards (version 0.4.0):
+Cards (version 0.5.0):
 
 | Card | Type | Styles |
 | --- | --- | --- |
-| Clock | `custom:viewsta-clock-card` | `digital`, `split`, `stack`, `outline`, `float`, `words`, `flip`, `analog`, `numbers`, `rings`, `station` |
+| Clock | `custom:viewsta-clock-card` | `digital`, `split`, `stack`, `outline`, `float`, `words`, `flip`, `flipclassic`, `analog`, `numbers`, `rings`, `station`, `stationclassic` |
 | Calendar | `custom:viewsta-calendar-card` | `agenda`, `month`, `countdown`, `date`, `poster`, `week`, `dateagenda`, `timeline` |
 | World time | `custom:viewsta-worldclock-card` | `list`, `dials` |
 | Sun | `custom:viewsta-sun-card` | arc with sunrise and sunset |
 | Day and night map | `custom:viewsta-daynight-card` | dot map with the day/night line |
-| Switch / entity | `custom:viewsta-entity-card` | `tile`, `wide`, `value`; sliders and color buttons on the tile, tap, double tap and hold |
-| Weather | `custom:viewsta-weather-card` | `now`, `text`, `days`, `temp`, `rain`, `combo` |
+| Switch / entity | `custom:viewsta-entity-card` | `tile`, `button` (large icon, plain on/off), `wide`, `value`; sliders and color buttons on the tile, tap, double tap and hold |
+| Room | `custom:viewsta-room-card` | temperature, humidity, lights, open windows and doors, brightness slider; pick what to show |
+| Scenes | `custom:viewsta-scenes-card` | `buttons`, `pills`; a bar of scenes, scripts or switches |
+| Progress | `custom:viewsta-progress-card` | `bar`, `ring`, `dots`; day, week, month or year |
+| Wikipedia | `custom:viewsta-wiki-card` | `onthisday`, `article` |
+| Weather | `custom:viewsta-weather-card` | `now`, `text`, `days`, `temp`, `rain`, `combo`, `uv`, `wind`, `details` |
 | To-do | `custom:viewsta-todo-card` | `list` (tap to check off), `count` |
-| Sensor | `custom:viewsta-sensor-card` | `chart`, `bars`, `value`, `ring` |
+| Sensor | `custom:viewsta-sensor-card` | `chart`, `level` (water level with highest and lowest value), `bars`, `value`, `ring` |
 | Moon | `custom:viewsta-moon-card` | `disc`, `only`; calculated, needs no integration |
 | Departures | `custom:viewsta-departures-card` | `list`, `next`; shows the sensor of an existing departures integration |
-| Photos | `custom:viewsta-photos-card` | own images with crossfade |
+| Photos | `custom:viewsta-photos-card` | own images, Immich or any media source, with crossfade and upload from your device |
 | Headlines | `custom:viewsta-news-card` | `headline`, `list`, `ticker` |
 | Timer | `custom:viewsta-timer-card` | `digital`, `ring`; tap starts and pauses |
 
@@ -52,10 +56,13 @@ Switch / entity card options:
 | `colors` | Colors offered by the `color` control, any CSS colors | nine preset colors |
 | `tap_action`, `double_tap_action`, `hold_action` | `auto` (toggle, or details if the entity cannot be toggled), `toggle`, `more-info`, `none` | `auto`, `none`, `more-info` |
 | `off_surface` | Tile while the entity is off: `invert`, `dark`, `black`, `tint`, `card`, `none` | `invert` |
+| `collapse_controls` | Hide the controls while the entity is off | `false` |
 
 Drag a slider or tap it to set a value; the tile is on the accent color while the entity is on and swaps its two colors while it is off.
 
 A card without an entity shows sample data marked "Beispiel", so the card picker and a freshly added card look like the finished card.
+
+Photos card, upload: with `upload: true` a plus button opens the photo picker of your device. The pictures are stored in Home Assistant's own media folder `viewsta`. With `source: immich` and an Immich account chosen in `immich_entry` they are then also sent to Immich (optionally into `album_id`); the copy in the media folder stays.
 
 Clock card options:
 
@@ -124,7 +131,7 @@ The calendar card needs a calendar entity in Home Assistant, for example from th
 
 ### Where the data comes from
 
-All cards only read what Home Assistant already has. They do not call any outside service.
+All cards only read what Home Assistant already has, with one exception: the Wikipedia card fetches the feed of the day from `wikipedia.org` once per day and browser, shows "Quelle: Wikipedia · Text unter CC BY-SA 4.0" and opens the article when tapped. It does not fetch anything while it is only shown in the card picker.
 
 | Card | Needs |
 | --- | --- |
@@ -133,7 +140,9 @@ All cards only read what Home Assistant already has. They do not call any outsid
 | To-do | a `todo` entity |
 | Sensor | a numeric entity; the curve uses the recorder history |
 | Departures | the sensor of a departures integration with the attributes `line`, `direction`, `delay` and `next` |
-| Photos | image addresses such as `/local/photo.jpg`, or `image`, `camera` or `person` entities |
+| Photos | image addresses such as `/local/photo.jpg`, `image`, `camera` or `person` entities, or a media source: the Immich integration (`source: immich`), your own media folder `viewsta` (`source: local`) or any other (`source: custom` with `media_source`) |
+| Room | an area; lights, windows, doors and sensors are taken from it, or pick them yourself |
+| Scenes | scenes, scripts, buttons or switches |
 | Headlines | entities that carry a `title` attribute or an `entries` list, for example from a feed integration |
 | Timer | a `timer` helper |
 
