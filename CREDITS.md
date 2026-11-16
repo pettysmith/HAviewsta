@@ -1,6 +1,6 @@
 # Quellen und Lizenzen
 
-Stand: 0.4.0. Jeder neue Baustein wird hier eingetragen, bevor er veröffentlicht wird. Vollständige Lizenztexte: `LICENSES.txt`.
+Stand: 0.5.0. Jeder neue Baustein wird hier eingetragen, bevor er veröffentlicht wird. Vollständige Lizenztexte: `LICENSES.txt`.
 
 | Quelle | Wofür | Lizenz | Stand |
 | --- | --- | --- | --- |
@@ -13,8 +13,9 @@ Stand: 0.4.0. Jeder neue Baustein wird hier eingetragen, bevor er veröffentlich
 | Mondphase (Karte „Mond“) | Phase, Beleuchtung, nächster Voll- und Neumond | eigene Umsetzung einer gängigen Näherung über die mittlere synodische Periode (29,530588853 Tage); Abweichung bis zu einigen Stunden | geprüft gegen zwei bekannte Termine |
 | Wettersymbole, Wetterverläufe, 16 Einzelfarben und ihre Ableitung | Karten „Wetter“ und Palette | eigene Zeichnungen und Werte des Autors (aus dem früheren Dashboard) | Status wie Vorlage: offen |
 | Home Assistant Frontend (github.com/home-assistant/frontend, Stand 15. November 2026, Commit f2d0da0): `weather/subscribe_forecast`, `todo/item/list`, Dienst `todo.update_item`, `history/history_during_period`, Ereignis `hass-more-info`, Element `ha-state-icon`, Eigenschaft `layout` der Karten, Aufbau der Kartenauswahl, Dauer für Halten | Daten und Verhalten der Karten | Apache License 2.0; nur aufgerufen, kein Code übernommen | an der Quelle gelesen |
-| Dienste von Home Assistant für die Regler (`light.turn_on`, `cover.set_cover_position`, `fan.set_percentage`, `media_player.volume_set`, `climate.set_temperature`, `number.set_value`, `homeassistant.toggle`) | Schalter-Karte | Teil von Home Assistant (Apache 2.0); nur aufgerufen | aus dem Gedächtnis, an der Quelle noch zu prüfen |
-| Sensor einer Abfahrts-Integration von Home Assistant (Attribute `line`, `direction`, `delay`, `next`) | Karte „Abfahrten“, nur Anzeige | Teil von Home Assistant (Apache 2.0); kein Code übernommen | Attributnamen aus dem Gedächtnis, an der Quelle noch zu prüfen |
+| Dienste von Home Assistant für die Regler (`light.turn_on`, `cover.set_cover_position`, `fan.set_percentage`, `media_player.volume_set`, `climate.set_temperature`, `number.set_value`, `homeassistant.toggle`, `homeassistant.turn_on`, `homeassistant.turn_off`) | Schalter-Karte | Teil von Home Assistant (Apache 2.0); nur aufgerufen | aus dem Gedächtnis, an der Quelle noch zu prüfen |
+| Home Assistant Core (github.com/home-assistant/core, Stand 16. November 2026, Commit aef7c99): Medienquelle und Aktion `upload_file` der Immich-Integration, Upload in eigene Medien (`/api/media_source/local_source/upload`), Attribute des Abfahrts-Sensors (`line`, `direction`, `delay`, `next`) und der Feed-Ereignisse (`title`, `link`) | Karten „Fotos“, „Abfahrten“, „Schlagzeilen“ | Apache License 2.0; nur aufgerufen und gelesen, kein Code übernommen | an der Quelle gelesen |
+| Wikipedia, Feed des Tages (`<sprache>.wikipedia.org/api/rest_v1/feed/featured/…`, Ersatz `api.wikimedia.org/feed/v1/…/onthisday/selected/…`) | Karte „Wikipedia“ | Texte CC BY-SA 4.0, Nennung „Quelle: Wikipedia · Text unter CC BY-SA 4.0“ mit Link zum Artikel in der Karte; Nutzungsbedingungen und API-Richtlinien von Wikimedia | Adressen aus dem früheren Dashboard übernommen, Bedingungen noch nicht an der Quelle gelesen |
 | Paletten in `palettes.json` | Farben | eigene Zusammenstellung des Autors | geprüft |
 | Apple StandBy | Gestalterisches Vorbild | Marke der Apple Inc.; weder Code noch Bilder übernommen | geprüft |
 | Eigenes früheres Dashboard des Autors (Web-App im Querformat) | Vorlage für Stile, Farbrollen und Paletten der Karten | eigene Werke des Autors; das Repo der Vorlage hat keine eigene Lizenzdatei | Status offen, vor weiteren Übernahmen klären |

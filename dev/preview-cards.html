@@ -20,6 +20,8 @@ if(FT){const R=Date,[hh,mm]=FT.split(':').map(Number),n=new R(),o=new R(n.getFul
  window.Date=class extends R{constructor(...a){a.length?super(...a):super(R.now()+o)}static now(){return R.now()+o}}}
 /* Platzhalter für die Symbole von Home Assistant (echte Symbole gibt es nur dort) */
 class StubIcon extends HTMLElement{connectedCallback(){this.style.cssText+='display:block;border-radius:28%;background:currentColor;opacity:.9'}}
+/* Wikipedia ist in der Vorschau nachgestellt, es wird nichts abgerufen */
+const realFetch=window.fetch;window.fetch=async(u,o)=>{u=String(u);if(/wikipedia\.org|wikimedia\.org/.test(u)){window.__wiki=(window.__wiki||0)+1;return{ok:true,status:200,json:async()=>({tfa:{titles:{normalized:'Leuchtturm'},extract:'Ein Leuchtturm ist ein Turm, der ein Leuchtfeuer trägt. Leuchttürme dienen der Schifffahrt als Orientierung und warnen vor Untiefen.',content_urls:{desktop:{page:'https://example.org/artikel'}}},onthisday:[{year:1969,text:'Die erste Nachricht wird zwischen zwei Rechnern eines Forschungsnetzes übertragen.',pages:[{content_urls:{desktop:{page:'https://example.org/1969'}}}]},{year:1889,text:'In einer Hafenstadt wird die erste elektrische Straßenbeleuchtung eingeschaltet.',pages:[]}]})}}return realFetch(u,o)};
 customElements.define('ha-icon',StubIcon);customElements.define('ha-state-icon',class extends StubIcon{});
 </script>
 <script src="../dist/viewsta.js"></script>
@@ -38,7 +40,11 @@ const states={
  'switch.steckdose':{state:'on',attributes:{friendly_name:'Steckdose'}},
  'sensor.temperatur':{state:'21.4',attributes:{friendly_name:'Temperatur',unit_of_measurement:'°C'}},
  'sensor.feuchte':{state:'56',attributes:{friendly_name:'Luftfeuchte',unit_of_measurement:'%'}},
- 'weather.zuhause':{state:up?'partlycloudy':'clear-night',attributes:{friendly_name:'Zuhause',temperature:7.3,temperature_unit:'°C'}},
+ 'weather.zuhause':{state:up?'partlycloudy':'clear-night',attributes:{friendly_name:'Zuhause',temperature:7.3,temperature_unit:'°C',humidity:71,wind_speed:14,wind_speed_unit:'km/h',wind_bearing:300,wind_gust_speed:31,pressure:1012,pressure_unit:'hPa',uv_index:2.4,apparent_temperature:5,visibility:18,visibility_unit:'km'}},
+ 'weather.gleich':{state:'rainy',attributes:{friendly_name:'Zuhause',temperature:7}},
+ 'scene.morgen':{state:'2026-01-01T07:00:00',attributes:{friendly_name:'Morgen'}},'scene.kochen':{state:'2026-01-01T07:00:00',attributes:{friendly_name:'Kochen'}},'scene.film':{state:'2026-01-01T07:00:00',attributes:{friendly_name:'Film'}},'script.nacht':{state:'off',attributes:{friendly_name:'Gute Nacht'}},
+ 'sensor.pegel':{state:'3.12',attributes:{friendly_name:'Pegel',unit_of_measurement:'m'}},
+ 'binary_sensor.fenster':{state:'on',attributes:{friendly_name:'Fenster',device_class:'window'}},'binary_sensor.tuer':{state:'off',attributes:{friendly_name:'Tür',device_class:'door'}},
  'weather.regen':{state:'rainy',attributes:{friendly_name:'Zuhause',temperature:4.1}},
  'todo.einkauf':{state:'3',attributes:{friendly_name:'Einkauf'}},
  'timer.kueche':{state:'active',attributes:{friendly_name:'Küche',duration:'0:20:00',finishes_at:inMin(12.57)}},
@@ -50,7 +56,8 @@ const states={
 };
 let items=[{uid:'1',summary:'Brot',status:'needs_action'},{uid:'2',summary:'Milch und Butter',status:'needs_action',due:day(1).toISOString().slice(0,10)},{uid:'3',summary:'Kaffee',status:'needs_action'},{uid:'4',summary:'Äpfel',status:'completed'}];
 const cards=[];
-const hass={language:'de',locale:{language:'de'},config:{latitude:50.1,longitude:8.7,time_zone:Intl.DateTimeFormat().resolvedOptions().timeZone},states,
+const hass={language:'de',locale:{language:'de'},areas:{wohnen:{area_id:'wohnen',name:'Wohnzimmer',icon:'mdi:sofa',temperature_entity_id:'sensor.temperatur',humidity_entity_id:'sensor.feuchte'}},devices:{},entities:{'light.wohnzimmer':{area_id:'wohnen'},'light.flur':{area_id:'wohnen'},'binary_sensor.fenster':{area_id:'wohnen'},'binary_sensor.tuer':{area_id:'wohnen'}},hassUrl:u=>u,
+ fetchWithAuth:async(u,o)=>{window.__calls=(window.__calls||[]);window.__calls.push(['fetch',u,o.body.get('media_content_id')+'|'+o.body.get('file').name]);return{status:200,json:async()=>({media_content_id:o.body.get('media_content_id')+'/'+o.body.get('file').name})}},config:{latitude:50.1,longitude:8.7,time_zone:Intl.DateTimeFormat().resolvedOptions().timeZone},states,
  callApi:async()=>[
   {summary:'Besprechung',start:{dateTime:iso(day(0),(now.getHours()+1)%24,30)},end:{dateTime:iso(day(0),(now.getHours()+2)%24,15)},location:'Raum 3'},
   {summary:'Zahnarzt',start:{dateTime:iso(day(1),9,0)},end:{dateTime:iso(day(1),9,45)}},
@@ -58,13 +65,19 @@ const hass={language:'de',locale:{language:'de'},config:{latitude:50.1,longitude
   {summary:'Konzert',start:{dateTime:iso(day(3),20,0)},end:{dateTime:iso(day(3),22,30)},location:'Halle'}],
  callWS:async m=>{
   if(m.type==='todo/item/list')return{items:items.map(x=>({...x}))};
+  if(m.type==='media_source/browse_media'){const id=m.media_content_id,dir=(i,t)=>({title:t,media_class:'directory',media_content_type:'image',media_content_id:i,can_play:false,can_expand:true}),img=(i)=>({title:i,media_class:'image',media_content_type:'image/jpeg',media_content_id:i,can_play:false,can_expand:false});
+   if(id==='media-source://immich')return{children:[dir(id+'/konto','Konto')]};if(id.endsWith('/konto'))return{children:[dir(id+'|albums','albums'),dir(id+'|favorites|favorites','favorites')]};if(id.endsWith('|albums'))return{children:[dir(id+'|a1','Urlaub')]};
+   if(id.endsWith('|a1'))return{children:[img(id+'|x1'),img(id+'|x2')]};if(id.endsWith('favorites'))return{children:[img(id+'|f1')]};if(id.includes('/local/viewsta'))return{children:window.__up?[img(id+'/neu.jpg')]:[]};return{children:[]}}
+  if(m.type==='media_source/resolve_media'){const c=['#3b82c4','#c4703b','#5aa469','#8a5ac4'];return{url:IMG(c[m.media_content_id.length%4]),mime_type:'image/svg+xml'}}
   if(m.type==='history/history_during_period'){const id=m.entity_ids[0],s=+new Date(m.start_time),e=+new Date(m.end_time),base=parseFloat(states[id].state),out=[];
    for(let i=0;i<=96;i++){const t=s+(e-s)*i/96;out.push({s:String((base+Math.sin(i/9)*base*.08+Math.cos(i/3.1)*base*.02).toFixed(2)),lu:t/1000})}return{[id]:out}}
   return{}},
  callService:async(dom,svc,data,target)=>{
+  if(dom==='immich'){window.__calls=(window.__calls||[]);window.__calls.push([dom,svc,JSON.stringify(data)]);return}
   if(dom==='todo'){const it=items.find(x=>x.uid===data.item);if(it)it.status=data.status;return}
-  const id=(data&&data.entity_id)||(target&&target.entity_id),s=states[id];if(!s)return;
   window.__calls=(window.__calls||[]);window.__calls.push([dom,svc,JSON.stringify(data)]);
+  const ids=[].concat((data&&data.entity_id)||(target&&target.entity_id)||[]);if(ids.length>1){ids.forEach(i=>{const x=states[i];if(!x)return;const on=svc==='turn_on'?'on':svc==='turn_off'?'off':x.state;states[i]={...x,state:on,last_updated:String(Date.now()),attributes:{...x.attributes,...(data.brightness_pct!=null?{brightness:Math.round(data.brightness_pct*2.55)}:{})}}});cards.forEach(c=>c.hass={...hass});return}
+  const id=ids[0],s=states[id];if(!s)return;
   if(dom==='light'&&svc==='turn_on'){const a={...s.attributes};if(data.brightness_pct!=null)a.brightness=Math.round(data.brightness_pct*2.55);if(data.rgb_color)a.rgb_color=data.rgb_color;if(data.color_temp_kelvin)a.color_temp_kelvin=data.color_temp_kelvin;states[id]={...s,state:'on',attributes:a,last_updated:String(Date.now())}}
   if(svc==='toggle')states[id]={...s,state:s.state==='on'?'off':'on',last_updated:String(Date.now())};
   if(dom==='timer')states[id]={...s,state:svc==='pause'?'paused':'active',last_updated:String(Date.now()),attributes:{...s.attributes,remaining:'0:12:34',finishes_at:inMin(12.57)}};
@@ -75,8 +88,8 @@ const hass={language:'de',locale:{language:'de'},config:{latitude:50.1,longitude
   else cb({type:'hourly',forecast:[...Array(30)].map((_,i)=>({datetime:new Date(+now+i*36e5).toISOString(),condition:'cloudy',temperature:+(6+4*Math.sin((i-3)/4)).toFixed(1),precipitation_probability:Math.max(0,Math.round(60*Math.sin((i-6)/4)))}))});
   return()=>{}}}};
 const add=(host,tag,cfg,cls)=>{const e=document.createElement(tag);e.setConfig(cfg);e.hass=hass;if(cls!=='ma'&&cls!=='pk')e.layout='grid';cards.push(e);const w=document.createElement('div');w.className='c '+cls;w.append(e);host.append(w)};
-const mkStrip=bg=>{const d=document.createElement('div');d.className='strip '+bg;document.body.append(d);return d};
 const IMG=c=>'data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200"><rect width="300" height="200" fill="${c}"/><circle cx="210" cy="70" r="34" fill="#fff" opacity=".8"/><path d="M0 200L90 90l70 60 50-40 90 90z" fill="#000" opacity=".35"/></svg>`);
+const mkStrip=bg=>{const d=document.createElement('div');d.className='strip '+bg;document.body.append(d);return d};
 const all=(bg,k)=>{let d=mkStrip(bg);
  add(d,'viewsta-entity-card',{entity:'light.wohnzimmer',...k},'x');add(d,'viewsta-entity-card',{entity:'light.flur',...k},'x');add(d,'viewsta-entity-card',{entity:'switch.steckdose',style:'wide',...k},'w');add(d,'viewsta-entity-card',{entity:'sensor.feuchte',style:'value',...k},'s');add(d,'viewsta-entity-card',{entity:'light.wohnzimmer',...k},'q');
  add(d,'viewsta-timer-card',{entity:'timer.kueche',...k},'s');add(d,'viewsta-timer-card',{entity:'timer.pause',style:'ring',...k},'q');
@@ -103,6 +116,23 @@ const shapes=(bg,k,cls)=>{const d=mkStrip(bg);
 /* Kartenauswahl von Home Assistant: zentrierender Flex-Rahmen, Karten ohne gewählte Entität zeigen Beispieldaten */
 const picker=bg=>{const d=mkStrip(bg);window.customCards.forEach(c=>{const C=customElements.get(c.type);add(d,c.type,C.getStubConfig({states:{}}),'pk')})};
 picker('l');
+/* Neu in 0.5.0 */
+const neu=(bg,k)=>{let d=mkStrip(bg);
+ add(d,'viewsta-entity-card',{entity:'light.wohnzimmer',style:'button',...k},'x');add(d,'viewsta-entity-card',{entity:'light.flur',style:'button',...k},'x');add(d,'viewsta-entity-card',{entity:'switch.steckdose',style:'button',...k},'sq');add(d,'viewsta-entity-card',{entity:'light.flur',collapse_controls:true,...k},'e1');add(d,'viewsta-entity-card',{entity:'light.wohnzimmer',collapse_controls:true,controls:['brightness','color'],...k},'e2');
+ add(d,'viewsta-room-card',{area:'wohnen',...k},'sq');add(d,'viewsta-room-card',{area:'wohnen',show:['temperature','humidity','lights','open','brightness'],...k},'e3');add(d,'viewsta-room-card',{name:'Bad',temperature:'sensor.temperatur',show:['temperature'],...k},'x');
+ add(d,'viewsta-scenes-card',{entities:['scene.morgen','scene.kochen','scene.film','script.nacht','light.wohnzimmer'],...k},'k');add(d,'viewsta-scenes-card',{entities:['scene.morgen','scene.kochen','scene.film'],style:'pills',...k},'w');
+ d=mkStrip(bg);
+ add(d,'viewsta-weather-card',{entity:'weather.zuhause',style:'text',...k},'s');add(d,'viewsta-weather-card',{entity:'weather.gleich',style:'text',surface:'tint',...k},'s');add(d,'viewsta-weather-card',{entity:'weather.zuhause',style:'uv',...k},'s');add(d,'viewsta-weather-card',{entity:'weather.zuhause',style:'wind',...k},'s');add(d,'viewsta-weather-card',{entity:'weather.zuhause',style:'details',...k},'m');add(d,'viewsta-weather-card',{entity:'weather.zuhause',style:'details',...k},'sq');
+ add(d,'viewsta-sensor-card',{entity:'sensor.pegel',style:'level',...k},'m');add(d,'viewsta-sensor-card',{entity:'sensor.pegel',style:'level',...k},'s');
+ d=mkStrip(bg);
+ add(d,'viewsta-progress-card',{period:'year',...k},'s');add(d,'viewsta-progress-card',{period:'day',style:'ring',...k},'s');add(d,'viewsta-progress-card',{period:'month',style:'dots',...k},'s');add(d,'viewsta-progress-card',{period:'year',style:'dots',...k},'m');add(d,'viewsta-progress-card',{period:'week',style:'dots',...k},'x');
+ add(d,'viewsta-wiki-card',{...k},'s');add(d,'viewsta-wiki-card',{style:'article',...k},'m');add(d,'viewsta-wiki-card',{...k},'sq');
+ add(d,'viewsta-photos-card',{source:'immich',upload:true,immich_entry:'abc',interval:5,...k},'s');add(d,'viewsta-photos-card',{source:'local',upload:true,...k},'s');
+ d=mkStrip(bg);
+ ['digital','outline','float','flip','flipclassic','stationclassic','station'].forEach(st=>{add(d,'viewsta-clock-card',{style:st,...k},'s')});
+ ['digital','outline','float','flipclassic','stationclassic'].forEach(st=>{add(d,'viewsta-clock-card',{style:st,...k},'sq')});
+ add(d,'viewsta-clock-card',{style:'digital',hour12:true,...k},'s');add(d,'viewsta-clock-card',{style:'digital',hour12:true,...k},'sq');add(d,'viewsta-clock-card',{style:'float',hour12:true,...k},'s');add(d,'viewsta-clock-card',{style:'digital',...k},'hi');add(d,'viewsta-clock-card',{style:'digital',long_date:true,...k},'b');};
+neu('l',{palette:'Gelb · Silber',font:'rounded'});neu('d',{palette:'Rosa · Blau',font:'archivo'});neu('d',{palette:'Mint · Marine',font:'rounded',night_red:true});
 /* Schalter-Karte mit Reglern */
 const ctl=(bg,k)=>{const d=mkStrip(bg);
  add(d,'viewsta-entity-card',{entity:'light.wohnzimmer',...k},'e1');add(d,'viewsta-entity-card',{entity:'light.wohnzimmer',controls:['brightness','color'],...k},'e2');add(d,'viewsta-entity-card',{entity:'light.wohnzimmer',controls:['brightness','color_temp','color'],...k},'e3');
