@@ -1,6 +1,6 @@
 # Quellen und Lizenzen
 
-Stand: 0.5.0. Jeder neue Baustein wird hier eingetragen, bevor er veröffentlicht wird. Vollständige Lizenztexte: `LICENSES.txt`.
+Stand: 0.6.0. Jeder neue Baustein wird hier eingetragen, bevor er veröffentlicht wird. Vollständige Lizenztexte: `LICENSES.txt`.
 
 | Quelle | Wofür | Lizenz | Stand |
 | --- | --- | --- | --- |
@@ -10,6 +10,8 @@ Stand: 0.5.0. Jeder neue Baustein wird hier eingetragen, bevor er veröffentlich
 | global-land-mask 1.0.0, Todd Karin (github.com/toddkarin/global-land-mask), Daten GLOBE der NOAA | Landmaske der Tag-Nacht-Karte (90 × 40 Raster) | MIT License | Lizenzdatei geladen |
 | Sonnenstand und Tag-Nacht-Linie | Karten „Tag-Nacht“ | eigene Umsetzung gängiger astronomischer Näherungsformeln | geprüft |
 | Zeitansage „in Worten“, Bahnhofsuhr (eigene schlichte Variante, nicht die SBB-Uhr), Klapptafel | Uhr-Stile | eigene Umsetzung | geprüft |
+| Feedparser (github.com/custom-components/feedparser, Ian Richardson und Mitwirkende, Stand 16. November 2026, Commit 5ce8124) | Aufbau der Attribute `entries` mit `title`, `link`, `published`; voreingestelltes Datumsformat `%a, %b %d %I:%M %p` ohne Jahr | MIT License; nur gelesen, kein Code übernommen | an der Quelle gelesen |
+| Home Assistant Frontend (Stand 15. November 2026): Medienauswahl (`media`-Selektor mit `accept` und `multiple`, „Verwalten“ mit Hochladen in eigene Medien), Adresse der Aufgabenliste `/todo?entity_id=…` | Karten „Fotos“, „Aufgaben“ | Apache License 2.0; nur genutzt, kein Code übernommen | an der Quelle gelesen |
 | Mondphase (Karte „Mond“) | Phase, Beleuchtung, nächster Voll- und Neumond | eigene Umsetzung einer gängigen Näherung über die mittlere synodische Periode (29,530588853 Tage); Abweichung bis zu einigen Stunden | geprüft gegen zwei bekannte Termine |
 | Wettersymbole, Wetterverläufe, 16 Einzelfarben und ihre Ableitung | Karten „Wetter“ und Palette | eigene Zeichnungen und Werte des Autors (aus dem früheren Dashboard) | Status wie Vorlage: offen |
 | Home Assistant Frontend (github.com/home-assistant/frontend, Stand 15. November 2026, Commit f2d0da0): `weather/subscribe_forecast`, `todo/item/list`, Dienst `todo.update_item`, `history/history_during_period`, Ereignis `hass-more-info`, Element `ha-state-icon`, Eigenschaft `layout` der Karten, Aufbau der Kartenauswahl, Dauer für Halten | Daten und Verhalten der Karten | Apache License 2.0; nur aufgerufen, kein Code übernommen | an der Quelle gelesen |

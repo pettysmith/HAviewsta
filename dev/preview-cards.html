@@ -43,6 +43,12 @@ const states={
  'weather.zuhause':{state:up?'partlycloudy':'clear-night',attributes:{friendly_name:'Zuhause',temperature:7.3,temperature_unit:'°C',humidity:71,wind_speed:14,wind_speed_unit:'km/h',wind_bearing:300,wind_gust_speed:31,pressure:1012,pressure_unit:'hPa',uv_index:2.4,apparent_temperature:5,visibility:18,visibility_unit:'km'}},
  'weather.gleich':{state:'rainy',attributes:{friendly_name:'Zuhause',temperature:7}},
  'scene.morgen':{state:'2026-01-01T07:00:00',attributes:{friendly_name:'Morgen'}},'scene.kochen':{state:'2026-01-01T07:00:00',attributes:{friendly_name:'Kochen'}},'scene.film':{state:'2026-01-01T07:00:00',attributes:{friendly_name:'Film'}},'script.nacht':{state:'off',attributes:{friendly_name:'Gute Nacht'}},
+ 'sensor.feed':{state:'4',attributes:{friendly_name:'Zeitung',entries:[
+   {title:'Neue Brücke über den Fluss wird am Wochenende für Fußgänger und Radfahrer freigegeben',link:'https://example.org/bruecke',published:(()=>{const d=new Date(Date.now()-40*6e4);return d.toLocaleDateString('en-US',{weekday:'short'})+', '+d.toLocaleDateString('en-US',{month:'short'})+' '+d.getDate()+' '+d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})})()},
+   {title:'Stadtbibliothek öffnet sonntags',link:'https://example.org/bib',published:'Mon, Jan 05 09:15 AM'},
+   {title:'Wetterdienst: Glätte möglich – Gehwege morgens vorsichtig begehen',link:'javascript:alert(1)',published:new Date(Date.now()-3*36e5).toUTCString()},
+   {title:'Ohne Datum: Konzert im Park',link:'https://example.org/park'}]}},
+ 'event.feedreader':{state:new Date(Date.now()-25*6e4).toISOString(),last_changed:new Date(Date.now()-25*6e4).toISOString(),attributes:{friendly_name:'Feed',title:'Neuer Fahrplan ab Dezember: Mehr Fahrten am Abend',link:'https://example.org/fahrplan'}},
  'sensor.pegel':{state:'3.12',attributes:{friendly_name:'Pegel',unit_of_measurement:'m'}},
  'binary_sensor.fenster':{state:'on',attributes:{friendly_name:'Fenster',device_class:'window'}},'binary_sensor.tuer':{state:'off',attributes:{friendly_name:'Tür',device_class:'door'}},
  'weather.regen':{state:'rainy',attributes:{friendly_name:'Zuhause',temperature:4.1}},
@@ -132,6 +138,19 @@ const neu=(bg,k)=>{let d=mkStrip(bg);
  ['digital','outline','float','flip','flipclassic','stationclassic','station'].forEach(st=>{add(d,'viewsta-clock-card',{style:st,...k},'s')});
  ['digital','outline','float','flipclassic','stationclassic'].forEach(st=>{add(d,'viewsta-clock-card',{style:st,...k},'sq')});
  add(d,'viewsta-clock-card',{style:'digital',hour12:true,...k},'s');add(d,'viewsta-clock-card',{style:'digital',hour12:true,...k},'sq');add(d,'viewsta-clock-card',{style:'float',hour12:true,...k},'s');add(d,'viewsta-clock-card',{style:'digital',...k},'hi');add(d,'viewsta-clock-card',{style:'digital',long_date:true,...k},'b');};
+/* Neu in 0.6.0 */
+const v6=(bg,k)=>{let d=mkStrip(bg);
+ add(d,'viewsta-news-card',{entities:['sensor.feed'],style:'list',...k},'t');add(d,'viewsta-news-card',{entities:['sensor.feed'],...k},'s');add(d,'viewsta-news-card',{entities:['event.feedreader'],...k},'s');
+ add(d,'viewsta-news-card',{entities:['sensor.feed','event.feedreader'],style:'rows',...k},'m');add(d,'viewsta-news-card',{entities:['sensor.feed'],style:'rows',ticker_mode:'latest',ticker_rows:6,...k},'sq');add(d,'viewsta-news-card',{entities:['sensor.feed'],style:'ticker',...k},'k');
+ add(d,'viewsta-wiki-card',{style:'article',...k},'s');
+ d=mkStrip(bg);
+ add(d,'viewsta-clock-card',{style:'outline',...k},'b');add(d,'viewsta-clock-card',{style:'outline',colon:'pulse',...k},'s');add(d,'viewsta-clock-card',{style:'flip',colon:'pulse',...k},'s');add(d,'viewsta-clock-card',{style:'flipclassic',colon:'pulse',...k},'s');
+ d=mkStrip(bg);
+ add(d,'viewsta-entity-card',{entity:'light.wohnzimmer',controls:['switch','brightness'],...k},'e1');add(d,'viewsta-entity-card',{entity:'light.flur',controls:['switch'],collapse_controls:true,...k},'e1');add(d,'viewsta-entity-card',{entity:'light.flur',entities:['light.wohnzimmer'],name:'Flur und Wohnen',style:'wide',...k},'e2');
+ add(d,'viewsta-room-card',{area:'wohnen',show:['temperature','lights','switches','toggle'],...k},'e3');add(d,'viewsta-room-card',{area:'wohnen',entities:['light.wohnzimmer','light.flur','switch.steckdose'],show:['temperature','humidity','switches','brightness'],...k},'e3');
+ add(d,'viewsta-todo-card',{entity:'todo.einkauf',double_tap_action:'more-info',...k},'q');
+ add(d,'viewsta-photos-card',{source:'media',media:[{media_content_id:'media-source://immich/konto|albums|a1',media_content_type:'image',metadata:{media_class:'directory'}}],interval:5,...k},'s');add(d,'viewsta-photos-card',{source:'media',...k},'s');};
+v6('l',{palette:'Pfirsich · Bordeaux',font:'rounded'});v6('d',{palette:'Orange · Creme',font:'rounded'});v6('i',{palette:'Blau · Eis',font:'archivo'});
 neu('l',{palette:'Gelb · Silber',font:'rounded'});neu('d',{palette:'Rosa · Blau',font:'archivo'});neu('d',{palette:'Mint · Marine',font:'rounded',night_red:true});
 /* Schalter-Karte mit Reglern */
 const ctl=(bg,k)=>{const d=mkStrip(bg);
