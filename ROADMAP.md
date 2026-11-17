@@ -2,6 +2,9 @@
 
 Entscheidungen des Projektinhabers: nur Karten, einzeln einstellbarer Look wie bei Frosted Glass, aber farbig und modern; farbige Kacheln mit eigenen Kontrasten, unabhängig von Hintergrund, Hell/Dunkel und Theme; mehrere Schriften. Alles Weitere sind Vorschläge.
 
+## 0.6.0
+Lange Texte werden sanft ausgeblendet statt abgeschnitten, mit Platz für Unterlängen. Schlagzeilen: Datum von Feeds ohne Jahresangabe richtig gelesen, Antippen öffnet die Meldung, neues Laufband in mehreren Zeilen (verschiedene Meldungen oder nur die jüngste versetzt). Uhr: Kontur ohne sichtbare Überschneidungen in den Ziffern, Klapptafeln ohne pulsierende Punkte. Schalter-Karte: Schalter ein/aus als Regler, mehrere Entitäten gemeinsam schalten. Raum: beliebige Geräte wählbar, Einzelschalter je Gerät und Schalter für alle. Aufgaben: Halten oder Doppeltipp öffnet die Liste. Fotos: Auswahl über die Mediathek von Home Assistant, Hochladen dort über „Verwalten“; der Hochlade-Knopf auf der Karte entfällt.
+
 ## 0.5.0
 Neue Karten: Raum (Temperatur, Feuchte, Lichter, Fenster und Türen, Helligkeitsregler, wählbar), Szenen-Leiste, Fortschritt (Tag, Woche, Monat, Jahr), Wikipedia (Was geschah heute, Artikel des Tages). Schalter-Karte: Stil „Schalter“ mit großem Symbol ohne Regler, Option „Regler ausblenden, wenn ausgeschaltet“. Fotos: Bilder aus Immich oder einer anderen Medienquelle, Hochladen vom Gerät. Wetter: Satz neu formuliert, dazu UV-Index, Wind mit Richtung und Einzelwerte. Sensor: Stil „Pegel“. Uhr: einheitliche Größen und Ränder, in quadratischen Kacheln Stunden über Minuten, Klapptafel und Bahnhofsuhr in klassischen Farben, Bahnhofsuhr nachts rot.
 

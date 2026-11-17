@@ -2,7 +2,7 @@
 
 Colorful, modern cards for Home Assistant, inspired by Apple StandBy. Every card is one element with several styles. The look is set per card, per view or per dashboard, and does not depend on your theme, background or light/dark mode: tiles bring their own colors and contrast.
 
-Cards (version 0.5.0):
+Cards (version 0.6.0):
 
 | Card | Type | Styles |
 | --- | --- | --- |
@@ -12,17 +12,17 @@ Cards (version 0.5.0):
 | Sun | `custom:viewsta-sun-card` | arc with sunrise and sunset |
 | Day and night map | `custom:viewsta-daynight-card` | dot map with the day/night line |
 | Switch / entity | `custom:viewsta-entity-card` | `tile`, `button` (large icon, plain on/off), `wide`, `value`; sliders and color buttons on the tile, tap, double tap and hold |
-| Room | `custom:viewsta-room-card` | temperature, humidity, lights, open windows and doors, brightness slider; pick what to show |
+| Room | `custom:viewsta-room-card` | temperature, humidity, lights, open windows and doors, one switch per device, one switch for all, brightness slider; pick what to show and which devices to switch |
 | Scenes | `custom:viewsta-scenes-card` | `buttons`, `pills`; a bar of scenes, scripts or switches |
 | Progress | `custom:viewsta-progress-card` | `bar`, `ring`, `dots`; day, week, month or year |
 | Wikipedia | `custom:viewsta-wiki-card` | `onthisday`, `article` |
 | Weather | `custom:viewsta-weather-card` | `now`, `text`, `days`, `temp`, `rain`, `combo`, `uv`, `wind`, `details` |
-| To-do | `custom:viewsta-todo-card` | `list` (tap to check off), `count` |
+| To-do | `custom:viewsta-todo-card` | `list` (tap to check off, hold or double tap opens the list), `count` |
 | Sensor | `custom:viewsta-sensor-card` | `chart`, `level` (water level with highest and lowest value), `bars`, `value`, `ring` |
 | Moon | `custom:viewsta-moon-card` | `disc`, `only`; calculated, needs no integration |
 | Departures | `custom:viewsta-departures-card` | `list`, `next`; shows the sensor of an existing departures integration |
-| Photos | `custom:viewsta-photos-card` | own images, Immich or any media source, with crossfade and upload from your device |
-| Headlines | `custom:viewsta-news-card` | `headline`, `list`, `ticker` |
+| Photos | `custom:viewsta-photos-card` | folders or pictures picked in Home Assistant's media browser, Immich, or own addresses; crossfade |
+| Headlines | `custom:viewsta-news-card` | `headline`, `list`, `ticker`, `rows` (ticker in several lines); tap opens the article |
 | Timer | `custom:viewsta-timer-card` | `digital`, `ring`; tap starts and pauses |
 
 Every card has a visual editor with dropdowns, switches and entity pickers. YAML works too.
@@ -52,7 +52,8 @@ Switch / entity card options:
 
 | Option | Meaning | Default |
 | --- | --- | --- |
-| `controls` | Controls shown on the tile: `brightness`, `color`, `color_temp` (lights), `position` (covers), `speed` (fans), `volume` (media players), `temperature` (climate), `value` (numbers), `none` | the main control of the entity |
+| `controls` | Controls shown on the tile: `switch` (on/off switch), `brightness`, `color`, `color_temp` (lights), `position` (covers), `speed` (fans), `volume` (media players), `temperature` (climate), `value` (numbers), `none` | the main control of the entity |
+| `entities` | More entities switched together with `entity`, e.g. several lamps | none |
 | `colors` | Colors offered by the `color` control, any CSS colors | nine preset colors |
 | `tap_action`, `double_tap_action`, `hold_action` | `auto` (toggle, or details if the entity cannot be toggled), `toggle`, `more-info`, `none` | `auto`, `none`, `more-info` |
 | `off_surface` | Tile while the entity is off: `invert`, `dark`, `black`, `tint`, `card`, `none` | `invert` |
@@ -62,7 +63,22 @@ Drag a slider or tap it to set a value; the tile is on the accent color while th
 
 A card without an entity shows sample data marked "Beispiel", so the card picker and a freshly added card look like the finished card.
 
-Photos card, upload: with `upload: true` a plus button opens the photo picker of your device. The pictures are stored in Home Assistant's own media folder `viewsta`. With `source: immich` and an Immich account chosen in `immich_entry` they are then also sent to Immich (optionally into `album_id`); the copy in the media folder stays.
+Photos card: choose `source: media` and pick folders or single pictures in the field below; the picker is Home Assistant's own media browser. To add pictures from your phone or computer, open "Manage" ("Verwalten") in that browser inside "My media" and upload them there, then pick them. Uploading needs an administrator account. `source: immich` shows all pictures the Immich integration offers (favorites and albums, at most 60 by default).
+
+Headlines card options:
+
+| Option | Meaning | Default |
+| --- | --- | --- |
+| `open_links` | Tapping a headline opens the article in the browser (only `http` and `https` links) | `true` |
+| `ticker_mode` | For `rows`: `mixed` (different headlines per line) or `latest` (only the newest, offset in every line) | `mixed` |
+| `ticker_rows` | For `rows`: number of lines | `4` |
+| `ticker_speed` | For `ticker` and `rows`: speed, 1 is normal | `1` |
+
+Dates of feed entries without a year (some feed integrations write `Mon, Nov 16 10:30 PM`) are read as this year. Entries without a readable date show no age.
+
+To-do card: `hold_action` and `double_tap_action` can be `list` (open the list in Home Assistant), `more-info` or `none`; defaults `list` and `none`.
+
+Long texts are not cut off: they fade out at the end, and there is room for descenders such as g and p.
 
 Clock card options:
 
