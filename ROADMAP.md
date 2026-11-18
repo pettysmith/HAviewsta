@@ -2,6 +2,9 @@
 
 Entscheidungen des Projektinhabers: nur Karten, einzeln einstellbarer Look wie bei Frosted Glass, aber farbig und modern; farbige Kacheln mit eigenen Kontrasten, unabhängig von Hintergrund, Hell/Dunkel und Theme; mehrere Schriften. Alles Weitere sind Vorschläge.
 
+## 0.7.0
+Festes Raster: Innenabstand 16 px (kleine Kacheln 12 px), Radius 24 px, Innenradius R − P. Option „Rand“ (fein oder wie Theme). Editor zeigt die wirksamen Namen in Klammern. Abfahrten: Verspätung nicht mehr doppelt gerechnet, Ausfälle durchgestrichen, Antippen ohne Detailfenster. Aufgaben: Kopf öffnet die bearbeitbare Liste. Wikipedia: nur die nötige Abfrage, alter Stand bis zum neuen, Text wird eingepasst, kurze Quelle. Schlagzeilen: eine Meldung pro Zeile, Textgröße. Termine: lange Zeilen durchlaufen. Fotos: Pfeile.
+
 ## 0.6.0
 Lange Texte werden sanft ausgeblendet statt abgeschnitten, mit Platz für Unterlängen. Schlagzeilen: Datum von Feeds ohne Jahresangabe richtig gelesen, Antippen öffnet die Meldung, neues Laufband in mehreren Zeilen (verschiedene Meldungen oder nur die jüngste versetzt). Uhr: Kontur ohne sichtbare Überschneidungen in den Ziffern, Klapptafeln ohne pulsierende Punkte. Schalter-Karte: Schalter ein/aus als Regler, mehrere Entitäten gemeinsam schalten. Raum: beliebige Geräte wählbar, Einzelschalter je Gerät und Schalter für alle. Aufgaben: Halten oder Doppeltipp öffnet die Liste. Fotos: Auswahl über die Mediathek von Home Assistant, Hochladen dort über „Verwalten“; der Hochlade-Knopf auf der Karte entfällt.
 

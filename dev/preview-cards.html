@@ -21,7 +21,7 @@ if(FT){const R=Date,[hh,mm]=FT.split(':').map(Number),n=new R(),o=new R(n.getFul
 /* Platzhalter für die Symbole von Home Assistant (echte Symbole gibt es nur dort) */
 class StubIcon extends HTMLElement{connectedCallback(){this.style.cssText+='display:block;border-radius:28%;background:currentColor;opacity:.9'}}
 /* Wikipedia ist in der Vorschau nachgestellt, es wird nichts abgerufen */
-const realFetch=window.fetch;window.fetch=async(u,o)=>{u=String(u);if(/wikipedia\.org|wikimedia\.org/.test(u)){window.__wiki=(window.__wiki||0)+1;return{ok:true,status:200,json:async()=>({tfa:{titles:{normalized:'Leuchtturm'},extract:'Ein Leuchtturm ist ein Turm, der ein Leuchtfeuer trägt. Leuchttürme dienen der Schifffahrt als Orientierung und warnen vor Untiefen.',content_urls:{desktop:{page:'https://example.org/artikel'}}},onthisday:[{year:1969,text:'Die erste Nachricht wird zwischen zwei Rechnern eines Forschungsnetzes übertragen.',pages:[{content_urls:{desktop:{page:'https://example.org/1969'}}}]},{year:1889,text:'In einer Hafenstadt wird die erste elektrische Straßenbeleuchtung eingeschaltet.',pages:[]}]})}}return realFetch(u,o)};
+const realFetch=window.fetch;window.fetch=async(u,o)=>{u=String(u);if(/wikipedia\.org|wikimedia\.org/.test(u)){window.__wiki=(window.__wiki||0)+1;if(/onthisday/.test(u))return{ok:true,status:200,json:async()=>({selected:[{year:1969,text:'Zwischen zwei Rechnern eines Forschungsnetzes wird die erste Nachricht übertragen. Die Verbindung bricht nach zwei Buchstaben ab, der zweite Versuch gelingt eine Stunde später und gilt als Geburtsstunde eines weltweiten Netzes.',pages:[{content_urls:{desktop:{page:'https://example.org/1969'}}}]}]})};return{ok:true,status:200,json:async()=>({tfa:{titles:{normalized:'Leuchtturm'},extract:'Ein Leuchtturm ist ein Turm, der ein Leuchtfeuer trägt. Leuchttürme dienen der Schifffahrt als Orientierung und warnen vor Untiefen. Die ältesten bekannten Bauwerke dieser Art stammen aus der Antike; der berühmteste stand auf einer Insel vor einer Hafenstadt und galt als eines der sieben Weltwunder. Heute werden die meisten Leuchtfeuer automatisch betrieben.',content_urls:{desktop:{page:'https://example.org/artikel'}}},onthisday:[{year:1969,text:'Die erste Nachricht wird zwischen zwei Rechnern eines Forschungsnetzes übertragen.',pages:[{content_urls:{desktop:{page:'https://example.org/1969'}}}]},{year:1889,text:'In einer Hafenstadt wird die erste elektrische Straßenbeleuchtung eingeschaltet.',pages:[]}]})}}return realFetch(u,o)};
 customElements.define('ha-icon',StubIcon);customElements.define('ha-state-icon',class extends StubIcon{});
 </script>
 <script src="../dist/viewsta.js"></script>
@@ -56,7 +56,7 @@ const states={
  'timer.kueche':{state:'active',attributes:{friendly_name:'Küche',duration:'0:20:00',finishes_at:inMin(12.57)}},
  'timer.pause':{state:'idle',attributes:{friendly_name:'Pause',duration:'0:05:00'}},
  'sensor.abfahrten':{state:inMin(3),attributes:{friendly_name:'Abfahrten',line:'5',direction:'Hauptbahnhof',delay:60,next:[
-   {departure:inMin(8),line:'5',direction:'Hauptbahnhof',delay:0},{departure:inMin(11),line:'M4',direction:'Stadtpark',delay:120},{departure:inMin(17),line:'181',direction:'Messe Nord',delay:0},{departure:inMin(74),line:'5',direction:'Hauptbahnhof',delay:0}]}},
+   {departure:inMin(8),line:'5',direction:'Hauptbahnhof',delay:0},{departure:inMin(11),line:'M4',direction:'Stadtpark',delay:120,cancelled:true},{departure:inMin(17),line:'181',direction:'Messe Nord',delay:0},{departure:inMin(74),line:'5',direction:'Hauptbahnhof',delay:0}]}},
  'event.nachrichten':{state:inMin(-12),last_changed:inMin(-12),attributes:{friendly_name:'Nachrichten',entries:[
    {title:'Stadtrat beschließt neuen Radweg entlang des Flusses',published:inMin(-12)},{title:'Wochenmarkt zieht ab Januar auf den Rathausplatz',published:inMin(-95)},{title:'Bibliothek verlängert Öffnungszeiten am Wochenende',published:inMin(-300)},{title:'Schwimmbad nach Sanierung wieder geöffnet',published:inMin(-1500)}]}},
 };
@@ -65,6 +65,7 @@ const cards=[];
 const hass={language:'de',locale:{language:'de'},areas:{wohnen:{area_id:'wohnen',name:'Wohnzimmer',icon:'mdi:sofa',temperature_entity_id:'sensor.temperatur',humidity_entity_id:'sensor.feuchte'}},devices:{},entities:{'light.wohnzimmer':{area_id:'wohnen'},'light.flur':{area_id:'wohnen'},'binary_sensor.fenster':{area_id:'wohnen'},'binary_sensor.tuer':{area_id:'wohnen'}},hassUrl:u=>u,
  fetchWithAuth:async(u,o)=>{window.__calls=(window.__calls||[]);window.__calls.push(['fetch',u,o.body.get('media_content_id')+'|'+o.body.get('file').name]);return{status:200,json:async()=>({media_content_id:o.body.get('media_content_id')+'/'+o.body.get('file').name})}},config:{latitude:50.1,longitude:8.7,time_zone:Intl.DateTimeFormat().resolvedOptions().timeZone},states,
  callApi:async()=>[
+  {summary:'Sehr langer Termin: Jahresversammlung des Kleingartenvereins mit anschließendem Grillfest',start:{dateTime:iso(day(0),(now.getHours()+1)%24,0)},end:{dateTime:iso(day(0),(now.getHours()+2)%24,0)},location:'Vereinsheim am Stadtpark, Eingang Nord'},
   {summary:'Besprechung',start:{dateTime:iso(day(0),(now.getHours()+1)%24,30)},end:{dateTime:iso(day(0),(now.getHours()+2)%24,15)},location:'Raum 3'},
   {summary:'Zahnarzt',start:{dateTime:iso(day(1),9,0)},end:{dateTime:iso(day(1),9,45)}},
   {summary:'Markttag',start:{date:day(2).toISOString().slice(0,10)},end:{date:day(3).toISOString().slice(0,10)}},
@@ -150,6 +151,16 @@ const v6=(bg,k)=>{let d=mkStrip(bg);
  add(d,'viewsta-room-card',{area:'wohnen',show:['temperature','lights','switches','toggle'],...k},'e3');add(d,'viewsta-room-card',{area:'wohnen',entities:['light.wohnzimmer','light.flur','switch.steckdose'],show:['temperature','humidity','switches','brightness'],...k},'e3');
  add(d,'viewsta-todo-card',{entity:'todo.einkauf',double_tap_action:'more-info',...k},'q');
  add(d,'viewsta-photos-card',{source:'media',media:[{media_content_id:'media-source://immich/konto|albums|a1',media_content_type:'image',metadata:{media_class:'directory'}}],interval:5,...k},'s');add(d,'viewsta-photos-card',{source:'media',...k},'s');};
+/* Neu in 0.7.0 */
+const v7=(bg,k)=>{let d=mkStrip(bg);
+ ['auto','none','fine','theme'].forEach(b=>add(d,'viewsta-clock-card',{style:'digital',border:b,surface:'dark',...k},'s'));
+ add(d,'viewsta-entity-card',{entity:'light.flur',border:'fine',...k},'x');add(d,'viewsta-departures-card',{entity:'sensor.abfahrten',...k},'s');add(d,'viewsta-departures-card',{entity:'sensor.abfahrten',style:'next',...k},'s');
+ d=mkStrip(bg);
+ add(d,'viewsta-wiki-card',{...k},'s');add(d,'viewsta-wiki-card',{style:'article',...k},'s');add(d,'viewsta-wiki-card',{style:'article',...k},'sq');
+ add(d,'viewsta-calendar-card',{entities:['calendar.a'],style:'agenda',scroll_long:true,...k},'s');add(d,'viewsta-calendar-card',{entities:['calendar.a'],style:'dateagenda',scroll_long:true,...k},'s');
+ add(d,'viewsta-news-card',{entities:['sensor.feed','event.feedreader'],style:'rows',ticker_mode:'single',...k},'m');add(d,'viewsta-news-card',{entities:['sensor.feed'],style:'list',text_size:'s',...k},'q');add(d,'viewsta-news-card',{entities:['sensor.feed'],text_size:'l',...k},'s');
+ add(d,'viewsta-photos-card',{source:'media',media:[{media_content_id:'media-source://immich/konto|albums|a1',media_content_type:'image',metadata:{media_class:'directory'}}],interval:30,...k},'s');};
+v7('i',{palette:'Mint · Marine',font:'rounded'});v7('l',{palette:'Rot · Rosé',font:'rounded'});
 v6('l',{palette:'Pfirsich · Bordeaux',font:'rounded'});v6('d',{palette:'Orange · Creme',font:'rounded'});v6('i',{palette:'Blau · Eis',font:'archivo'});
 neu('l',{palette:'Gelb · Silber',font:'rounded'});neu('d',{palette:'Rosa · Blau',font:'archivo'});neu('d',{palette:'Mint · Marine',font:'rounded',night_red:true});
 /* Schalter-Karte mit Reglern */
