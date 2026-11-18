@@ -2,7 +2,7 @@
 
 Colorful, modern cards for Home Assistant, inspired by Apple StandBy. Every card is one element with several styles. The look is set per card, per view or per dashboard, and does not depend on your theme, background or light/dark mode: tiles bring their own colors and contrast.
 
-Cards (version 0.6.0):
+Cards (version 0.7.0):
 
 | Card | Type | Styles |
 | --- | --- | --- |
@@ -45,7 +45,8 @@ Options that every card understands:
 | `night_red` | Switch to `Nachtrot` while the sun is below the horizon (uses `sun.sun`) | `false` |
 | `surface` | Tile color: `accent`, `invert` (accent colors swapped), `tint`, `dark`, `black`, `card` (your theme's card), `none`, or any CSS color | depends on card and style |
 | `font` | `rounded` (embedded Nunito), `archivo`, `serif`, `mono`, `theme` | `rounded` |
-| `radius` | Corner radius, e.g. `16px` | `28px` |
+| `radius` | Corner radius, e.g. `16px` | `24px` |
+| `border` | `auto`, `none`, `fine` (hairline inside the tile), `theme` (uses `--ha-card-border-width` and `--ha-card-border-color` of your theme, e.g. Frosted Glass) | `auto` |
 | `accent`, `on_accent`, `tint`, `text` | Override single colors; any CSS color works (`#fff`, `rgb()`, names) | from palette |
 
 Switch / entity card options:
@@ -70,13 +71,16 @@ Headlines card options:
 | Option | Meaning | Default |
 | --- | --- | --- |
 | `open_links` | Tapping a headline opens the article in the browser (only `http` and `https` links) | `true` |
-| `ticker_mode` | For `rows`: `mixed` (different headlines per line) or `latest` (only the newest, offset in every line) | `mixed` |
+| `ticker_mode` | For `rows`: `single` (one headline per line), `mixed` (all headlines, every line starts elsewhere) or `latest` (only the newest, offset in every line) | `mixed` |
+| `text_size` | `s`, `m`, `l`, `xl` | `m` |
 | `ticker_rows` | For `rows`: number of lines | `4` |
 | `ticker_speed` | For `ticker` and `rows`: speed, 1 is normal | `1` |
 
 Dates of feed entries without a year (some feed integrations write `Mon, Nov 16 10:30 PM`) are read as this year. Entries without a readable date show no age.
 
 To-do card: `hold_action` and `double_tap_action` can be `list` (open the list in Home Assistant), `more-info` or `none`; defaults `list` and `none`.
+
+Layout: every tile keeps 16 px between content and edge (12 px on tiles under 140 px), corner radius 24 px, inner elements use radius minus padding. The calendar option `scroll_long` lets long titles scroll. The photos card has arrows to step through the pictures (`show_arrows`).
 
 Long texts are not cut off: they fade out at the end, and there is room for descenders such as g and p.
 
