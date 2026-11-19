@@ -2,6 +2,9 @@
 
 Entscheidungen des Projektinhabers: nur Karten, einzeln einstellbarer Look wie bei Frosted Glass, aber farbig und modern; farbige Kacheln mit eigenen Kontrasten, unabhängig von Hintergrund, Hell/Dunkel und Theme; mehrere Schriften. Alles Weitere sind Vorschläge.
 
+## 0.7.1
+Abfahrten ohne doppelte erste Fahrt. Durchlaufen langer Zeilen auch in Safari. Ausblenden robuster (neu messen nach Schriftladen und Größenänderung, feste Flächen blenden immer weich aus). Wettersymbol größer.
+
 ## 0.7.0
 Festes Raster: Innenabstand 16 px (kleine Kacheln 12 px), Radius 24 px, Innenradius R − P. Option „Rand“ (fein oder wie Theme). Editor zeigt die wirksamen Namen in Klammern. Abfahrten: Verspätung nicht mehr doppelt gerechnet, Ausfälle durchgestrichen, Antippen ohne Detailfenster. Aufgaben: Kopf öffnet die bearbeitbare Liste. Wikipedia: nur die nötige Abfrage, alter Stand bis zum neuen, Text wird eingepasst, kurze Quelle. Schlagzeilen: eine Meldung pro Zeile, Textgröße. Termine: lange Zeilen durchlaufen. Fotos: Pfeile.
 
