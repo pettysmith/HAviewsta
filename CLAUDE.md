@@ -20,6 +20,15 @@ README.md, ROADMAP.md, CREDITS.md, dev/preview.html
 - Karten bleiben eine einzelne Datei ohne Build-Schritt und ohne Abhängigkeiten. Ein Element pro Kartenart, Stile über die Option `style`.
 - Jede Karte muss auf hellem, dunklem und buntem Hintergrund und mit jeder Schrift lesbar sein. Prüfen mit `dev/preview.html` und Playwright-Screenshots.
 
+
+## Arbeitsregeln (festgelegt vom Projektinhaber)
+- Sehr kurz antworten: Ergebnis zuerst, Stichpunkte, etwa ein Viertel der früher üblichen Länge.
+- Eine Frage ist kein Auftrag. Gebaut wird erst nach ausdrücklicher Freigabe. Größere Vorhaben in Pakete teilen und einzeln vorlegen, iterativ arbeiten.
+- Etablierte Standardlösungen und vorhandene Systeme von Home Assistant nutzen, möglichst wenig selbst bauen, wartungsarm, keine Insellösungen. Selbst gestaltet werden nur feste Elemente.
+- Nichts erfinden: an der Quelle prüfen, Ungeprüftes als ungeprüft kennzeichnen.
+- Raster: Innenabstand P = 16 px (Kacheln unter 140 px: 12 px), Außenradius R = 24 px, Innenradius r = R − P. Inhalte ankern am Abstand P, Grafiken füllen die Fläche mittig. Randlos nur Fotos, geteilte Uhr, Laufband.
+- Texte nie abschneiden: einpassen oder weich ausblenden, Platz für Unterlängen.
+
 ## Quellen würdigen
 Jede genutzte Ressource (Schrift, Daten, Code, Vorbild) wird vor der Veröffentlichung in CREDITS.md und, falls eingebettet, in LICENSES.txt eingetragen: Urheber, Lizenz, wie sie genannt wird, Stand. Nichts als geprüft markieren, was nicht an der Quelle nachgelesen wurde.
 
