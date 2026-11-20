@@ -28,6 +28,7 @@ README.md, ROADMAP.md, CREDITS.md, dev/preview.html
 - Nichts erfinden: an der Quelle prüfen, Ungeprüftes als ungeprüft kennzeichnen.
 - Raster: Innenabstand P = 16 px (Kacheln unter 140 px: 12 px), Außenradius R = 24 px, Innenradius r = R − P. Inhalte ankern am Abstand P, Grafiken füllen die Fläche mittig. Randlos nur Fotos, geteilte Uhr, Laufband.
 - Texte nie abschneiden: einpassen oder weich ausblenden, Platz für Unterlängen.
+- Sonnenverlauf immer entlang eines Kreisbogens, nie als Kurve oder anders gebogene Linie.
 
 ## Quellen würdigen
 Jede genutzte Ressource (Schrift, Daten, Code, Vorbild) wird vor der Veröffentlichung in CREDITS.md und, falls eingebettet, in LICENSES.txt eingetragen: Urheber, Lizenz, wie sie genannt wird, Stand. Nichts als geprüft markieren, was nicht an der Quelle nachgelesen wurde.

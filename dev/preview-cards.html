@@ -10,7 +10,7 @@ body{margin:0;font:14px system-ui}
 .pk{width:300px;display:flex;align-items:center;justify-content:center}.pk>*{display:block;width:100%}
 .e1{width:210px;height:150px}.e2{width:300px;height:210px}.e3{width:210px;height:260px}
 .sq{width:210px;height:210px}.hi{width:210px;height:300px}.ma{width:260px}
-.x{width:120px;height:120px}.w{width:300px;height:100px}.b{width:420px;height:210px}.k{width:420px;height:70px}
+.x{width:120px;height:120px}.gS{width:119px;height:120px}.gM{width:246px;height:120px}.gL{width:246px;height:248px}.gW{width:500px;height:120px}.w{width:300px;height:100px}.b{width:420px;height:210px}.k{width:420px;height:70px}
 </style>
 <body>
 <script>
@@ -62,7 +62,7 @@ const states={
 };
 let items=[{uid:'1',summary:'Brot',status:'needs_action'},{uid:'2',summary:'Milch und Butter',status:'needs_action',due:day(1).toISOString().slice(0,10)},{uid:'3',summary:'Kaffee',status:'needs_action'},{uid:'4',summary:'Äpfel',status:'completed'}];
 const cards=[];
-const hass={language:'de',locale:{language:'de'},areas:{wohnen:{area_id:'wohnen',name:'Wohnzimmer',icon:'mdi:sofa',temperature_entity_id:'sensor.temperatur',humidity_entity_id:'sensor.feuchte'}},devices:{},entities:{'light.wohnzimmer':{area_id:'wohnen'},'light.flur':{area_id:'wohnen'},'binary_sensor.fenster':{area_id:'wohnen'},'binary_sensor.tuer':{area_id:'wohnen'}},hassUrl:u=>u,
+const hass={config:{latitude:50,longitude:10,time_zone:'Europe/Berlin'},language:'de',locale:{language:'de'},areas:{wohnen:{area_id:'wohnen',name:'Wohnzimmer',icon:'mdi:sofa',temperature_entity_id:'sensor.temperatur',humidity_entity_id:'sensor.feuchte'}},devices:{},entities:{'light.wohnzimmer':{area_id:'wohnen'},'light.flur':{area_id:'wohnen'},'binary_sensor.fenster':{area_id:'wohnen'},'binary_sensor.tuer':{area_id:'wohnen'}},hassUrl:u=>u,
  fetchWithAuth:async(u,o)=>{window.__calls=(window.__calls||[]);window.__calls.push(['fetch',u,o.body.get('media_content_id')+'|'+o.body.get('file').name]);return{status:200,json:async()=>({media_content_id:o.body.get('media_content_id')+'/'+o.body.get('file').name})}},config:{latitude:50.1,longitude:8.7,time_zone:Intl.DateTimeFormat().resolvedOptions().timeZone},states,
  callApi:async()=>[
   {summary:'Sehr langer Termin: Jahresversammlung des Kleingartenvereins mit anschließendem Grillfest',start:{dateTime:iso(day(0),(now.getHours()+1)%24,0)},end:{dateTime:iso(day(0),(now.getHours()+2)%24,0)},location:'Vereinsheim am Stadtpark, Eingang Nord'},
@@ -122,7 +122,7 @@ const shapes=(bg,k,cls)=>{const d=mkStrip(bg);
  add(d,'viewsta-timer-card',{entity:'timer.kueche',...k},cls);add(d,'viewsta-sensor-card',{entity:'sensor.temperatur',...k},cls);add(d,'viewsta-calendar-card',{entities:['calendar.a'],style:'countdown',...k},cls);add(d,'viewsta-calendar-card',{style:'poster',...k},cls);add(d,'viewsta-todo-card',{entity:'todo.einkauf',style:'count',...k},cls);add(d,'viewsta-entity-card',{entity:'light.wohnzimmer',style:'wide',...k},cls);add(d,'viewsta-news-card',{entities:['event.nachrichten'],...k},cls);};
 /* Kartenauswahl von Home Assistant: zentrierender Flex-Rahmen, Karten ohne gewählte Entität zeigen Beispieldaten */
 const picker=bg=>{const d=mkStrip(bg);window.customCards.forEach(c=>{const C=customElements.get(c.type);add(d,c.type,C.getStubConfig({states:{}}),'pk')})};
-picker('l');
+if(!new URLSearchParams(location.search).has('grid'))picker('l');
 /* Neu in 0.5.0 */
 const neu=(bg,k)=>{let d=mkStrip(bg);
  add(d,'viewsta-entity-card',{entity:'light.wohnzimmer',style:'button',...k},'x');add(d,'viewsta-entity-card',{entity:'light.flur',style:'button',...k},'x');add(d,'viewsta-entity-card',{entity:'switch.steckdose',style:'button',...k},'sq');add(d,'viewsta-entity-card',{entity:'light.flur',collapse_controls:true,...k},'e1');add(d,'viewsta-entity-card',{entity:'light.wohnzimmer',collapse_controls:true,controls:['brightness','color'],...k},'e2');
@@ -160,8 +160,14 @@ const v7=(bg,k)=>{let d=mkStrip(bg);
  add(d,'viewsta-calendar-card',{entities:['calendar.a'],style:'agenda',scroll_long:true,...k},'s');add(d,'viewsta-calendar-card',{entities:['calendar.a'],style:'dateagenda',scroll_long:true,...k},'s');
  add(d,'viewsta-news-card',{entities:['sensor.feed','event.feedreader'],style:'rows',ticker_mode:'single',...k},'m');add(d,'viewsta-news-card',{entities:['sensor.feed'],style:'list',text_size:'s',...k},'q');add(d,'viewsta-news-card',{entities:['sensor.feed'],text_size:'l',...k},'s');
  add(d,'viewsta-photos-card',{source:'media',media:[{media_content_id:'media-source://immich/konto|albums|a1',media_content_type:'image',metadata:{media_class:'directory'}}],interval:30,...k},'s');};
-v7('i',{palette:'Mint · Marine',font:'rounded'});v7('l',{palette:'Rot · Rosé',font:'rounded'});
-v6('l',{palette:'Pfirsich · Bordeaux',font:'rounded'});v6('d',{palette:'Orange · Creme',font:'rounded'});v6('i',{palette:'Blau · Eis',font:'archivo'});
+if(!new URLSearchParams(location.search).has('grid')){v7('i',{palette:'Mint · Marine',font:'rounded'});v7('l',{palette:'Rot · Rosé',font:'rounded'});}
+if(!new URLSearchParams(location.search).has('grid')){v6('l',{palette:'Pfirsich · Bordeaux',font:'rounded'});v6('d',{palette:'Orange · Creme',font:'rounded'});v6('i',{palette:'Blau · Eis',font:'archivo'});}
+/* Raster wie in der Abschnittsansicht: S = 3 × 2, M = 6 × 2, L = 6 × 4, W = 12 × 2 Felder. ?grid zeigt nur diesen Teil */
+const grid=(bg,k)=>{const set=[['viewsta-sun-card',{}],['viewsta-moon-card',{}],['viewsta-moon-card',{style:'only'}],['viewsta-weather-card',{entity:'weather.zuhause',style:'uv'}],['viewsta-weather-card',{entity:'weather.zuhause',style:'wind'}],['viewsta-weather-card',{entity:'weather.zuhause'}],['viewsta-weather-card',{entity:'weather.zuhause',style:'hours'}],['viewsta-weather-card',{entity:'weather.zuhause',style:'days'}]];
+ set.forEach(([t,c])=>{const d=mkStrip(bg);['gS','gM','gL','gW'].forEach(z=>add(d,t,{...c,...k},z))})};
+const ONLY=new URLSearchParams(location.search).get('grid');
+if(ONLY!==null){const P={l:['l',{palette:'Gelb · Silber',font:'rounded'}],d:['d',{palette:'Rosa · Blau',font:'rounded'}],i:['i',{palette:'Mint · Marine',font:'archivo'}]};(ONLY?ONLY.split(','):['d','l','i']).forEach(x=>grid(...P[x]))}
+else{
 neu('l',{palette:'Gelb · Silber',font:'rounded'});neu('d',{palette:'Rosa · Blau',font:'archivo'});neu('d',{palette:'Mint · Marine',font:'rounded',night_red:true});
 /* Schalter-Karte mit Reglern */
 const ctl=(bg,k)=>{const d=mkStrip(bg);
@@ -176,4 +182,5 @@ all('i',{palette:'Rosa · Blau',font:'archivo'});
 all('d',{palette:'Mint · Marine',font:'mono'});
 all('l',{palette:'Indigo',font:'serif'});
 all('d',{palette:'Orange · Creme',font:'rounded',night_red:true});
+}
 </script></html>
