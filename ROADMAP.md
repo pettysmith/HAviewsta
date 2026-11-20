@@ -2,6 +2,9 @@
 
 Entscheidungen des Projektinhabers: nur Karten, einzeln einstellbarer Look wie bei Frosted Glass, aber farbig und modern; farbige Kacheln mit eigenen Kontrasten, unabhängig von Hintergrund, Hell/Dunkel und Theme; mehrere Schriften. Alles Weitere sind Vorschläge.
 
+## 0.8.0
+Feste Größenklassen für Sonne, Mond und Wetter (klein, breit, groß) mit wachsender Informationsdichte. Sonne: Kreisbogen, nachts unter dem Horizont. Mond: groß mit den nächsten vier Hauptphasen. Wetter: neue Stundenreihe, aktuelles Wetter groß mit fünf Tagen, UV-Index in den fünf Stufen der WHO, Wind in Beaufort mit Böen statt Kompass, Symbole aus den Material Design Icons. Wikipedia: Text passt sich genauer ein, Jahreszahl wird bei langem Text kleiner, Ausblenden nur wenn nötig. Schlagzeilen: Titel ganz, nur die letzte angeschnittene Meldung blendet aus.
+
 ## 0.7.1
 Abfahrten ohne doppelte erste Fahrt. Durchlaufen langer Zeilen auch in Safari. Ausblenden robuster (neu messen nach Schriftladen und Größenänderung, feste Flächen blenden immer weich aus). Wettersymbol größer.
 

@@ -2,30 +2,32 @@
 
 Colorful, modern cards for Home Assistant, inspired by Apple StandBy. Every card is one element with several styles. The look is set per card, per view or per dashboard, and does not depend on your theme, background or light/dark mode: tiles bring their own colors and contrast.
 
-Cards (version 0.7.1):
+Cards (version 0.8.0):
 
 | Card | Type | Styles |
 | --- | --- | --- |
 | Clock | `custom:viewsta-clock-card` | `digital`, `split`, `stack`, `outline`, `float`, `words`, `flip`, `flipclassic`, `analog`, `numbers`, `rings`, `station`, `stationclassic` |
 | Calendar | `custom:viewsta-calendar-card` | `agenda`, `month`, `countdown`, `date`, `poster`, `week`, `dateagenda`, `timeline` |
 | World time | `custom:viewsta-worldclock-card` | `list`, `dials` |
-| Sun | `custom:viewsta-sun-card` | arc with sunrise and sunset |
+| Sun | `custom:viewsta-sun-card` | path as a circular arc, above the horizon by day, below it at night |
 | Day and night map | `custom:viewsta-daynight-card` | dot map with the day/night line |
 | Switch / entity | `custom:viewsta-entity-card` | `tile`, `button` (large icon, plain on/off), `wide`, `value`; sliders and color buttons on the tile, tap, double tap and hold |
 | Room | `custom:viewsta-room-card` | temperature, humidity, lights, open windows and doors, one switch per device, one switch for all, brightness slider; pick what to show and which devices to switch |
 | Scenes | `custom:viewsta-scenes-card` | `buttons`, `pills`; a bar of scenes, scripts or switches |
 | Progress | `custom:viewsta-progress-card` | `bar`, `ring`, `dots`; day, week, month or year |
 | Wikipedia | `custom:viewsta-wiki-card` | `onthisday`, `article` |
-| Weather | `custom:viewsta-weather-card` | `now`, `text`, `days`, `temp`, `rain`, `combo`, `uv`, `wind`, `details` |
+| Weather | `custom:viewsta-weather-card` | `now`, `hours`, `text`, `days`, `temp`, `rain`, `combo`, `uv` (five WHO levels), `wind` (Beaufort with gusts), `details` |
 | To-do | `custom:viewsta-todo-card` | `list` (tap to check off, hold or double tap opens the list), `count` |
 | Sensor | `custom:viewsta-sensor-card` | `chart`, `level` (water level with highest and lowest value), `bars`, `value`, `ring` |
-| Moon | `custom:viewsta-moon-card` | `disc`, `only`; calculated, needs no integration |
+| Moon | `custom:viewsta-moon-card` | `disc` (large tiles add the next four main phases), `only`; calculated, needs no integration |
 | Departures | `custom:viewsta-departures-card` | `list`, `next`; shows the sensor of an existing departures integration |
 | Photos | `custom:viewsta-photos-card` | folders or pictures picked in Home Assistant's media browser, Immich, or own addresses; crossfade |
 | Headlines | `custom:viewsta-news-card` | `headline`, `list`, `ticker`, `rows` (ticker in several lines); tap opens the article |
 | Timer | `custom:viewsta-timer-card` | `digital`, `ring`; tap starts and pauses |
 
 Every card has a visual editor with dropdowns, switches and entity pickers. YAML works too.
+
+Sun, moon and weather adapt to the tile size in the sections view: small (3 × 2), wide (6 × 2) and large (6 × 4) show more information as they grow. Weather symbols are filled shapes from the Material Design Icons.
 
 ## Install
 
