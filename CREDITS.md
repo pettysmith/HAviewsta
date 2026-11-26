@@ -1,6 +1,6 @@
 # Quellen und Lizenzen
 
-Stand: 0.9.1. Jeder neue Baustein wird hier eingetragen, bevor er veröffentlicht wird. Vollständige Lizenztexte: `LICENSES.txt`.
+Stand: 0.10.0. Jeder neue Baustein wird hier eingetragen, bevor er veröffentlicht wird. Vollständige Lizenztexte: `LICENSES.txt`.
 
 | Quelle | Wofür | Lizenz | Stand |
 | --- | --- | --- | --- |

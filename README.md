@@ -2,7 +2,7 @@
 
 Colorful, modern cards for Home Assistant, inspired by Apple StandBy. Every card is one element with several styles. The look is set per card, per view or per dashboard, and does not depend on your theme, background or light/dark mode: tiles bring their own colors and contrast.
 
-Cards (version 0.9.1):
+Cards (version 0.10.0):
 
 | Card | Type | Styles |
 | --- | --- | --- |
@@ -108,7 +108,7 @@ Pick one of these:
 1. **View theme (recommended):** install the companion repository `pettysmith/HAthemebook`. It only sets variables for these cards and changes nothing else in Home Assistant. Edit dashboard → pencil next to the view name → **Theme** dropdown → pick a Viewsta theme. Do not choose it in your profile, that would replace your own theme. Leave `Palette` on *Automatisch* in the cards, otherwise the card wins.
 
 2. **A helper:** create an `input_select` with the palette names and add `palette_entity: input_select.viewsta_palette` to each card. Changing the helper changes all those cards at once, for example by an automation at sunset.
-3. **CSS variables:** `--viewsta-palette`, `--viewsta-accent`, `--viewsta-font`, `--viewsta-surface`, `--viewsta-radius`, `--viewsta-border`, `--viewsta-night-red` set by any theme or card-mod. Options on the card win over variables.
+3. **CSS variables:** `--viewsta-palette`, `--viewsta-accent`, `--viewsta-font`, `--viewsta-surface`, `--viewsta-radius`, `--viewsta-border`, `--viewsta-night-red`, `--viewsta-control` (color of sliders and switches) set by any theme. Each variable can also be set for one card type only, e.g. `--viewsta-weather-accent` or `--viewsta-entity-control`; the card type is the part of the card name between `viewsta-` and `-card` or card-mod. Options on the card win over variables.
 
 ## YAML examples (optional)
 

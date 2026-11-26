@@ -2,6 +2,9 @@
 
 Entscheidungen des Projektinhabers: nur Karten, einzeln einstellbarer Look wie bei Frosted Glass, aber farbig und modern; farbige Kacheln mit eigenen Kontrasten, unabhängig von Hintergrund, Hell/Dunkel und Theme; mehrere Schriften. Alles Weitere sind Vorschläge.
 
+## 0.10.0
+Themes können Farben je Kartenart setzen (`--viewsta-<kartenart>-<name>`, etwa `--viewsta-weather-accent`), dazu eine eigene Reglerfarbe (`--viewsta-control`). Bei Eckenradius 0 sind Regler, Schalter und Knöpfe eckig. Schrift auf einer eigenen Zweitfarbe wählt jetzt die besser lesbare von Hell und Dunkel. Grundlage für die Sets Metro Mono, Duet Blue und Duet Orange in Themebook 0.5.0.
+
 ## 0.9.1
 Eine an der Karte gewählte Palette hat jetzt Vorrang vor Akzent-, Schrift- und Zweitfarbe aus einem Theme (wichtig für die Looks in Themebook 0.4.0, etwa mehrere Farben nebeneinander im Look Metro).
 
