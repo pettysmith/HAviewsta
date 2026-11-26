@@ -2,6 +2,9 @@
 
 Entscheidungen des Projektinhabers: nur Karten, einzeln einstellbarer Look wie bei Frosted Glass, aber farbig und modern; farbige Kacheln mit eigenen Kontrasten, unabhängig von Hintergrund, Hell/Dunkel und Theme; mehrere Schriften. Alles Weitere sind Vorschläge.
 
+## 0.11.0
+Ohne Viewsta-Theme folgen die Karten jetzt dem Dashboard-Theme (zum Beispiel Frosted Glass): Fläche, Unschärfe, Rand, Ecken, Schatten und Schrift kommen vom Theme, die Akzentfarbe von dessen Primärfarbe. Vorher galt dann Gelb · Silber, und je nach Stil waren Karten teils farbig, teils dunkel. Eine an der Karte gewählte Palette bleibt farbig.
+
 ## 0.10.1
 Wikipedia: Der zuletzt geladene Eintrag erscheint sofort beim Öffnen. Vorher blieb die Karte bis zu 15 Sekunden auf „Wikipedia wird geladen …“, weil das Neuzeichnen nach dem Lesen des Zwischenspeichers gleich wieder überschrieben wurde.
 

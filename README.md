@@ -2,7 +2,7 @@
 
 Colorful, modern cards for Home Assistant, inspired by Apple StandBy. Every card is one element with several styles. The look is set per card, per view or per dashboard, and does not depend on your theme, background or light/dark mode: tiles bring their own colors and contrast.
 
-Cards (version 0.10.1):
+Cards (version 0.11.0):
 
 | Card | Type | Styles |
 | --- | --- | --- |
@@ -43,7 +43,7 @@ Options that every card understands:
 
 | Option | Meaning | Default |
 | --- | --- | --- |
-| `palette` | One of the 17 palettes or `Nachtrot`, one of 16 single colors (the other colors are derived), or `theme` to follow your Home Assistant theme | `Gelb · Silber` |
+| `palette` | One of the 17 palettes or `Nachtrot`, one of 16 single colors (the other colors are derived), or `theme` to follow your Home Assistant theme | the Viewsta theme if one is active, otherwise `theme`: the cards take background, blur, border, corners, shadow and font from your dashboard theme (for example Frosted Glass) |
 | `night_red` | Switch to `Nachtrot` while the sun is below the horizon (uses `sun.sun`). A theme can switch it on for all cards of a view with `viewsta-night-red: "on"` | `false` |
 | `surface` | Tile color: `accent`, `invert` (accent colors swapped), `tint`, `dark`, `black`, `card` (your theme's card), `none`, or any CSS color. Weather card also: `sky` (gradient by weather) | depends on card and style |
 | `font` | `rounded` (embedded Nunito), `archivo`, `serif`, `mono`, `theme` | `rounded` |
