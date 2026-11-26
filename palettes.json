@@ -115,6 +115,51 @@
    "secondary": "#c9d3df",
    "secondaryInk": "#141a1c",
    "contrast": "#f2efe8"
+  },
+  {
+   "name": "Himmel · Nachtblau",
+   "accent": "#8ec5ff",
+   "accentInk": "#8ec5ff",
+   "onAccent": "#0f2547",
+   "secondary": "#0f2547",
+   "secondaryInk": "#f4f4f6",
+   "contrast": "#f4f4f6"
+  },
+  {
+   "name": "Zitrone · Graphit",
+   "accent": "#ffe45c",
+   "accentInk": "#ffe45c",
+   "onAccent": "#24262b",
+   "secondary": "#2e3036",
+   "secondaryInk": "#f4f4f6",
+   "contrast": "#f4f4f6"
+  },
+  {
+   "name": "Salbei · Tanne",
+   "accent": "#b9d6a6",
+   "accentInk": "#b9d6a6",
+   "onAccent": "#173323",
+   "secondary": "#173323",
+   "secondaryInk": "#f4f4f6",
+   "contrast": "#f4f4f6"
+  },
+  {
+   "name": "Koralle · Petrol",
+   "accent": "#ff8f70",
+   "accentInk": "#ff8f70",
+   "onAccent": "#0d3640",
+   "secondary": "#0d3640",
+   "secondaryInk": "#f4f4f6",
+   "contrast": "#f4f4f6"
+  },
+  {
+   "name": "Flieder · Tinte",
+   "accent": "#c8b0ff",
+   "accentInk": "#c8b0ff",
+   "onAccent": "#1f1640",
+   "secondary": "#1f1640",
+   "secondaryInk": "#f4f4f6",
+   "contrast": "#f4f4f6"
   }
  ],
  "night": {

@@ -2,7 +2,7 @@
 
 Colorful, modern cards for Home Assistant, inspired by Apple StandBy. Every card is one element with several styles. The look is set per card, per view or per dashboard, and does not depend on your theme, background or light/dark mode: tiles bring their own colors and contrast.
 
-Cards (version 0.8.0):
+Cards (version 0.9.0):
 
 | Card | Type | Styles |
 | --- | --- | --- |
@@ -43,12 +43,12 @@ Options that every card understands:
 
 | Option | Meaning | Default |
 | --- | --- | --- |
-| `palette` | One of the 12 palettes or `Nachtrot`, one of 16 single colors (the other colors are derived), or `theme` to follow your Home Assistant theme | `Gelb · Silber` |
-| `night_red` | Switch to `Nachtrot` while the sun is below the horizon (uses `sun.sun`) | `false` |
-| `surface` | Tile color: `accent`, `invert` (accent colors swapped), `tint`, `dark`, `black`, `card` (your theme's card), `none`, or any CSS color | depends on card and style |
+| `palette` | One of the 17 palettes or `Nachtrot`, one of 16 single colors (the other colors are derived), or `theme` to follow your Home Assistant theme | `Gelb · Silber` |
+| `night_red` | Switch to `Nachtrot` while the sun is below the horizon (uses `sun.sun`). A theme can switch it on for all cards of a view with `viewsta-night-red: "on"` | `false` |
+| `surface` | Tile color: `accent`, `invert` (accent colors swapped), `tint`, `dark`, `black`, `card` (your theme's card), `none`, or any CSS color. Weather card also: `sky` (gradient by weather) | depends on card and style |
 | `font` | `rounded` (embedded Nunito), `archivo`, `serif`, `mono`, `theme` | `rounded` |
 | `radius` | Corner radius, e.g. `16px` | `24px` |
-| `border` | `auto`, `none`, `fine` (hairline inside the tile), `theme` (uses `--ha-card-border-width` and `--ha-card-border-color` of your theme, e.g. Frosted Glass) | `auto` |
+| `border` | `auto`, `none`, `fine` (hairline inside the tile), `theme` (uses `--ha-card-border-width` and `--ha-card-border-color` of your theme, e.g. Frosted Glass). `auto` means no border | `auto` |
 | `accent`, `on_accent`, `tint`, `text` | Override single colors; any CSS color works (`#fff`, `rgb()`, names) | from palette |
 
 Switch / entity card options:
@@ -97,7 +97,9 @@ Clock card options:
 
 Single colors: Gelb, Orange, Rot, Pink, Magenta, Lila, Indigo, Blau, Cyan, Mint, Grün, Limette, Pfirsich, Sand, Silber, Weiß.
 
-Palettes: Gelb · Silber, Rosa · Blau, Limette · Tanne, Orange · Creme, Mint · Marine, Rot · Rosé, Lila · Gelb, Pfirsich · Bordeaux, Blau · Eis, Grün · Pink, Silber · Schwarz, Marine · Creme, Nachtrot.
+Palettes: Gelb · Silber, Rosa · Blau, Limette · Tanne, Orange · Creme, Mint · Marine, Rot · Rosé, Lila · Gelb, Pfirsich · Bordeaux, Blau · Eis, Grün · Pink, Silber · Schwarz, Marine · Creme, Himmel · Nachtblau, Zitrone · Graphit, Salbei · Tanne, Koralle · Petrol, Flieder · Tinte, Nachtrot.
+
+The five newest palettes follow one rule: a light accent and a deep partner color, no large bright areas, at least 4.5 : 1 contrast for text on both colors. With the clock style `split` they give the two-color look (accent left, partner right).
 
 ### One look for a whole dashboard
 
@@ -106,7 +108,7 @@ Pick one of these:
 1. **View theme (recommended):** install the companion repository `pettysmith/HAthemebook`. It only sets variables for these cards and changes nothing else in Home Assistant. Edit dashboard → pencil next to the view name → **Theme** dropdown → pick a Viewsta theme. Do not choose it in your profile, that would replace your own theme. Leave `Palette` on *Automatisch* in the cards, otherwise the card wins.
 
 2. **A helper:** create an `input_select` with the palette names and add `palette_entity: input_select.viewsta_palette` to each card. Changing the helper changes all those cards at once, for example by an automation at sunset.
-3. **CSS variables:** `--viewsta-palette`, `--viewsta-accent`, `--viewsta-font`, `--viewsta-surface` set by any theme or card-mod. Options on the card win over variables.
+3. **CSS variables:** `--viewsta-palette`, `--viewsta-accent`, `--viewsta-font`, `--viewsta-surface`, `--viewsta-radius`, `--viewsta-border`, `--viewsta-night-red` set by any theme or card-mod. Options on the card win over variables.
 
 ## YAML examples (optional)
 

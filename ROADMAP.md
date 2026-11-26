@@ -2,6 +2,9 @@
 
 Entscheidungen des Projektinhabers: nur Karten, einzeln einstellbarer Look wie bei Frosted Glass, aber farbig und modern; farbige Kacheln mit eigenen Kontrasten, unabhängig von Hintergrund, Hell/Dunkel und Theme; mehrere Schriften. Alles Weitere sind Vorschläge.
 
+## 0.9.0
+Fünf neue Paletten nach dem Muster heller Akzent und tiefe Partnerfarbe: Himmel · Nachtblau, Zitrone · Graphit, Salbei · Tanne, Koralle · Petrol, Flieder · Tinte. Kein Rand mehr als Standard (nur noch mit „Fein“ oder „Wie Theme“), dadurch füllt die geteilte Uhr die Kachel ohne Kante. Geteilte Uhr rechts standardmäßig in der Zweitfarbe. Wetter standardmäßig in der dunklen Kachel mit Symbol in der Akzentfarbe, der Himmelsverlauf ist als Kachelfarbe „Himmel“ wählbar. Schalter-Karte: Feld für weitere Entitäten hieß fälschlich „Kalender“. Uhr: Beschriftungen nennen, in welchen Stilen Datum, Doppelpunkt und Ausrichtung wirken. Nachtrot lässt sich für eine ganze Ansicht über die Theme-Variable `viewsta-night-red: "on"` einschalten. In Chromium mit Beispieldaten geprüft, in Home Assistant noch zu bestätigen.
+
 ## 0.8.0
 Feste Größenklassen für Sonne, Mond und Wetter (klein, breit, groß) mit wachsender Informationsdichte. Sonne: Kreisbogen, nachts unter dem Horizont. Mond: groß mit den nächsten vier Hauptphasen. Wetter: neue Stundenreihe, aktuelles Wetter groß mit fünf Tagen, UV-Index in den fünf Stufen der WHO, Wind in Beaufort mit Böen statt Kompass, Symbole aus den Material Design Icons. Wikipedia: Text passt sich genauer ein, Jahreszahl wird bei langem Text kleiner, Ausblenden nur wenn nötig. Schlagzeilen: Titel ganz, nur die letzte angeschnittene Meldung blendet aus.
 
