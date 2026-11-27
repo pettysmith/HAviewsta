@@ -2,6 +2,9 @@
 
 Entscheidungen des Projektinhabers: nur Karten, einzeln einstellbarer Look wie bei Frosted Glass, aber farbig und modern; farbige Kacheln mit eigenen Kontrasten, unabhängig von Hintergrund, Hell/Dunkel und Theme; mehrere Schriften. Alles Weitere sind Vorschläge.
 
+## 0.11.1
+Der Editor zeigt die laufende Version im Feld „Stil“ („Stil · Viewsta 0.11.1“). Ist Viewsta doppelt als Ressource eingetragen, gewinnt die zuerst geladene Datei; die neuere meldet das jetzt in der Browser-Konsole.
+
 ## 0.11.0
 Ohne Viewsta-Theme folgen die Karten jetzt dem Dashboard-Theme (zum Beispiel Frosted Glass): Fläche, Unschärfe, Rand, Ecken, Schatten und Schrift kommen vom Theme, die Akzentfarbe von dessen Primärfarbe. Vorher galt dann Gelb · Silber, und je nach Stil waren Karten teils farbig, teils dunkel. Eine an der Karte gewählte Palette bleibt farbig.
 
